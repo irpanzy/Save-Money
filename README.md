@@ -30,23 +30,28 @@ Proyek ini adalah titik awal untuk aplikasi Flutter.
 ### Langkah-langkah
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/irpanzy/Project-Aplikasi-Catatan-Keuangan.git
+   git clone https://github.com/irpanzy/Aplikasi-Catatan-Keuangan.git
    ```
 2. **Masuk ke Direktori Proyek**:
    ```bash
-   cd Project-Aplikasi-Catatan-Keuangan
+   cd Aplikasi-Catatan-Keuangan
    ```
-3. **Pindah ke Branch development**:
+3. **Pindah ke Branch tugas**:
    Setelah berada di dalam direktori proyek, jalankan perintah ini untuk beralih ke branch tugas masing-masing:
    ```bash
    git checkout feature/"tugas kalian"
    ```
-4. **Install Dependencies**:
+4. **Sinkronisasi dengan Branch Development**:
+   Untuk memastikan branch tugas Anda memiliki pembaruan terbaru dari branch development, jalankan:
+   ```bash
+   git pull origin development
+   ```
+5. **Install Dependencies**:
    Pastikan Anda sudah menginstall [Flutter](https://flutter.dev) terlebih dahulu. Setelah itu, jalankan:
    ```bash
    flutter pub get
    ```
-5. **Jalankan Aplikasi**:
+6. **Jalankan Aplikasi**:
    ```bash
    flutter run
    ```

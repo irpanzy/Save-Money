@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Features/home_screen.dart';
 import 'Features/input_name_screen.dart';
 import 'features/intro_screen.dart';
 
@@ -18,6 +19,7 @@ class SaveMoneyApp extends StatelessWidget {
       routes: {
         '/': (context) => IntroScreen(),
         '/input_name': (context) => InputNameScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }

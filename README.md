@@ -24,6 +24,21 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 - **Dart**: Bahasa pemrograman yang digunakan bersama Flutter.
 - **Supabase**: Untuk autentikasi, penyimpanan data, atau analitik (jika diimplementasikan).
 
+## Pembagian Tugas
+1. **Irfan Muria**  
+   - Intro Screen  
+   - Input Name Screen  
+   - Home Screen  
+2. **Ricky Revanando**  
+   - History Screen  
+3. **Yogi Hafidh Maulana**  
+   - Statistik Screen
+4. **Ganesha R. Gibran**
+   - Sub Category Screen
+5. **Satria Ariq A. D.**
+   - Input Screen
+   - Settings Screen  
+
 ## Cara Memulai
 Proyek ini adalah titik awal untuk aplikasi Flutter.
 

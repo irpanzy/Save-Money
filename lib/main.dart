@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Features/home_screen.dart';
-import 'Features/input_name_screen.dart';
-import 'features/intro_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/input_name_screen.dart';
+import 'screens/intro_screen.dart';
 
 void main() {
   runApp(SaveMoneyApp());

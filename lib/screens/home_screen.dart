@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import '../helpers/navigation_helper.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/home/expense_item_home.dart';
 import '../widgets/home/income_expense_row_home.dart';
 import '../widgets/home/doughnut_chart_home.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  void _onTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    NavigationHelper.navigateTo(index, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +121,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavbar(context),
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+      ),
     );
   }
 }

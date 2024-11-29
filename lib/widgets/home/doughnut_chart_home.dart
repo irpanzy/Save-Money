@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../models/home/chart_data_home.dart';
+import '../../models/home/chart_data_model.dart';
 
 class DoughnutChart extends StatelessWidget {
   @override

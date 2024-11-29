@@ -33,6 +33,7 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
    - History Screen  
 3. **Yogi Hafidh Maulana**  
    - Statistik Screen
+   - Design System
 4. **Ganesha R. Gibran**
    - Sub Category Screen
 5. **Satria Ariq A. D.**

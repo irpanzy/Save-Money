@@ -10,7 +10,7 @@ class NavigationHelper {
         Navigator.pushNamed(context, '/history');
         break;
       case 2:
-        Navigator.pushNamed(context, '/add');
+        Navigator.pushNamed(context, '/input');
         break;
       case 3:
         Navigator.pushNamed(context, '/statistik');

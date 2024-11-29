@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/home/income_expense_data_model.dart';
-import 'income_expense_box_home.dart';
+import 'income_expense_box_widget.dart';
 
 class IncomeExpenseRowHome extends StatelessWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BottomNavbar extends StatelessWidget {
-  final int currentIndex; // Indeks halaman saat ini
-  final Function(int) onTap; // Callback untuk menangani perubahan halaman
+  final int currentIndex; 
+  final Function(int) onTap; 
 
   BottomNavbar({required this.currentIndex, required this.onTap});
 
@@ -31,9 +31,9 @@ class BottomNavbar extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.home,
-              color: currentIndex == 0 ? Colors.black : Colors.grey, // Warna berdasarkan halaman aktif
+              color: currentIndex == 0 ? Colors.black : Colors.grey, 
             ),
-            onPressed: () => onTap(0), // Panggil callback dengan indeks 0
+            onPressed: () => onTap(0), 
           ),
           IconButton(
             icon: Icon(
@@ -60,7 +60,7 @@ class BottomNavbar extends StatelessWidget {
             child: Center(
               child: IconButton(
                 icon: Icon(Icons.add, color: Colors.white, size: 20),
-                onPressed: () => onTap(2), // Halaman khusus tombol tambah
+                onPressed: () => onTap(2), 
               ),
             ),
           ),

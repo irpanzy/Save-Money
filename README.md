@@ -24,29 +24,50 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 - **Dart**: Bahasa pemrograman yang digunakan bersama Flutter.
 - **Supabase**: Untuk autentikasi, penyimpanan data, atau analitik (jika diimplementasikan).
 
+## Pembagian Tugas
+1. **Irfan Muria**  
+   - Intro Screen  
+   - Input Name Screen  
+   - Home Screen  
+2. **Ricky Revanando**  
+   - History Screen  
+3. **Yogi Hafidh Maulana**  
+   - Statistik Screen
+   - Design System
+4. **Ganesha R. Gibran**
+   - Sub Category Screen
+5. **Satria Ariq A. D.**
+   - Input Screen
+   - Settings Screen  
+
 ## Cara Memulai
 Proyek ini adalah titik awal untuk aplikasi Flutter.
 
 ### Langkah-langkah
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/irpanzy/Project-Aplikasi-Catatan-Keuangan.git
+   git clone https://github.com/irpanzy/Aplikasi-Catatan-Keuangan.git
    ```
 2. **Masuk ke Direktori Proyek**:
    ```bash
-   cd Project-Aplikasi-Catatan-Keuangan
+   cd Aplikasi-Catatan-Keuangan
    ```
-3. **Pindah ke Branch development**:
+3. **Pindah ke Branch tugas**:
    Setelah berada di dalam direktori proyek, jalankan perintah ini untuk beralih ke branch tugas masing-masing:
    ```bash
    git checkout feature/"tugas kalian"
    ```
-4. **Install Dependencies**:
+4. **Sinkronisasi dengan Branch Development**:
+   Untuk memastikan branch tugas Anda memiliki pembaruan terbaru dari branch development, jalankan:
+   ```bash
+   git pull origin development
+   ```
+5. **Install Dependencies**:
    Pastikan Anda sudah menginstall [Flutter](https://flutter.dev) terlebih dahulu. Setelah itu, jalankan:
    ```bash
    flutter pub get
    ```
-5. **Jalankan Aplikasi**:
+6. **Jalankan Aplikasi**:
    ```bash
    flutter run
    ```

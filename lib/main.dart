@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'screens/settings_screen.dart';
+import 'screens/statistik_screen.dart';
+import 'screens/input_screen.dart';
 import 'screens/history_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/input_name_screen.dart';
@@ -25,6 +28,9 @@ class SaveMoneyApp extends StatelessWidget {
         '/input_name': (context) => InputNameScreen(),
         '/home': (context) => HomeScreen(),
         '/history': (context) => HistoryScreen(),
+        '/input': (context) => InputScreen(),
+        '/statistik': (context) => StatistikScreen(),
+        '/settings': (context) => SettingsScreen(),
       },
     );
   }

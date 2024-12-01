@@ -25,10 +25,12 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 - **Supabase**: Untuk autentikasi, penyimpanan data, atau analitik (jika diimplementasikan).
 
 ## Pembagian Tugas
-1. **Irfan Muria**  
+1. **Irfan Muria**
+   - Setup Project  
    - Intro Screen  
    - Input Name Screen  
-   - Home Screen  
+   - Home Screen 
+   - Input Screen 
 2. **Ricky Revanando**  
    - History Screen  
 3. **Yogi Hafidh Maulana**  
@@ -37,7 +39,6 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 4. **Ganesha R. Gibran**
    - Sub Category Screen
 5. **Satria Ariq A. D.**
-   - Input Screen
    - Settings Screen  
 
 ## Cara Memulai

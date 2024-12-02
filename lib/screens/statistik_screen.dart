@@ -63,69 +63,71 @@ class _StatistikScreenState extends State<StatistikScreen> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isIncomeSelected = true;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            'Pemasukan',
-                            style: TypographyStyle.h5,
-                          ),
-                          if (isIncomeSelected)
-                            Container(
-                              height: 2,
-                              width: 120,
-                              color: Colors.black,
+          ListView(
+            children: [
+              Column(
+                children: [
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isIncomeSelected = true;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              'Pemasukan',
+                              style: TypographyStyle.h5,
                             ),
-                        ],
+                            if (isIncomeSelected)
+                              Container(
+                                height: 2,
+                                width: 120,
+                                color: Colors.black,
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isIncomeSelected = false;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            'Pengeluaran',
-                            style: TypographyStyle.h5,
-                          ),
-                          if (!isIncomeSelected)
-                            Container(
-                              height: 2,
-                              width: 120,
-                              color: Colors.black,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isIncomeSelected = false;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              'Pengeluaran',
+                              style: TypographyStyle.h5,
                             ),
-                        ],
+                            if (!isIncomeSelected)
+                              Container(
+                                height: 2,
+                                width: 120,
+                                color: Colors.black,
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                DoughnutChart(),
-                const SizedBox(height: 30),
-                ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  children: isIncomeSelected
-                      ? _buildIncomeCategoryList()
-                      : _buildExpenseCategoryList(),
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  DoughnutChart(),
+                  const SizedBox(height: 30),
+                  ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    children: isIncomeSelected
+                        ? _buildIncomeCategoryList()
+                        : _buildExpenseCategoryList(),
+                  ),
+                ],
+              )
+            ],
           ),
           BottomNavbar(
             currentIndex: _currentIndex,
@@ -153,6 +155,24 @@ class _StatistikScreenState extends State<StatistikScreen> {
       CategoryCard(
         title: 'Freelance',
         percentage: 12,
+        amount: '120.000 IDR',
+        isIncomeSelected: isIncomeSelected,
+      ),
+      CategoryCard(
+        title: 'Olshop',
+        percentage: 5,
+        amount: '120.000 IDR',
+        isIncomeSelected: isIncomeSelected,
+      ),
+      CategoryCard(
+        title: 'Olshop',
+        percentage: 5,
+        amount: '120.000 IDR',
+        isIncomeSelected: isIncomeSelected,
+      ),
+      CategoryCard(
+        title: 'Olshop',
+        percentage: 5,
         amount: '120.000 IDR',
         isIncomeSelected: isIncomeSelected,
       ),

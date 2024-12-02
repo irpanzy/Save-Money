@@ -11,7 +11,7 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 16, // Jarak navbar dari bawah layar
+      bottom: 16, 
       left: 16,
       right: 16,
       child: Container(

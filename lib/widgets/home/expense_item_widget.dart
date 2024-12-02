@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import '../../style/color_style.dart';
 
-class ExpenseItemHome extends StatelessWidget {
+class ExpenseItemWidget extends StatelessWidget {
   final String category;
   final String description;
   final String amount;
 
-  ExpenseItemHome(this.category, this.description, this.amount);
+  ExpenseItemWidget(this.category, this.description, this.amount);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -21,16 +22,14 @@ class ExpenseItemHome extends StatelessWidget {
                 category,
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Poppins_Medium",
+                  fontFamily: "Poppins_Bold",
                 ),
               ),
               Text(
                 description,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey[700],
-                  fontFamily: "Poppins_Regular",
+                  fontFamily: "Poppins_Medium",
                 ),
               ),
             ],
@@ -39,7 +38,7 @@ class ExpenseItemHome extends StatelessWidget {
             amount,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFFE60000),
+              color: ColorStyle.expenditureColor,
               fontFamily: "Poppins_Medium",
             ),
           ),

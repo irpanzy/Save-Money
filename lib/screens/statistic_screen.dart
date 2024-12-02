@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
+import 'package:project_apk_catatan_keuangan/widgets/bottom_navbar.dart';
+import 'package:project_apk_catatan_keuangan/widgets/home/doughnut_chart_home.dart';
 import 'package:project_apk_catatan_keuangan/widgets/statistic/category_card.dart';
 
 class StatisticsPage extends StatefulWidget {
+  const StatisticsPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _StatisticsPageState createState() => _StatisticsPageState();
 }
 
@@ -56,59 +61,66 @@ class _StatisticsPageState extends State<StatisticsPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isIncomeSelected = true;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      'Pemasukan',
-                      style: TypographyStyle.h5,
-                    ),
-                    if (isIncomeSelected)
-                      Container(
-                        height: 2,
-                        width: 120,
-                        color: Colors.black,
-                      )
-                  ],
+      body: SingleChildScrollView(
+        // Membungkus seluruh body dengan SingleChildScrollView
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isIncomeSelected = true;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        'Pemasukan',
+                        style: TypographyStyle.h5,
+                      ),
+                      if (isIncomeSelected)
+                        Container(
+                          height: 2,
+                          width: 120,
+                          color: Colors.black,
+                        )
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isIncomeSelected = false;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      'Pengeluaran',
-                      style: TypographyStyle.h5,
-                    ),
-                    if (!isIncomeSelected)
-                      Container(
-                        height: 2,
-                        width: 120,
-                        color: Colors.black,
-                      )
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isIncomeSelected = false;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        'Pengeluaran',
+                        style: TypographyStyle.h5,
+                      ),
+                      if (!isIncomeSelected)
+                        Container(
+                          height: 2,
+                          width: 120,
+                          color: Colors.black,
+                        )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Expanded(
-            child: ListView(
+              ],
+            ),
+            const SizedBox(height: 30),
+            DoughnutChart(),
+            const SizedBox(height: 30),
+            // Expanded tidak diperlukan di sini karena SingleChildScrollView sudah menangani scroll
+            // Anda bisa langsung menggunakan ListView tanpa Expanded
+            ListView(
+              shrinkWrap:
+                  true, // Membuat ListView memiliki ukuran yang sesuai dengan konten
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
@@ -116,21 +128,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   ? _buildIncomeCategoryList()
                   : _buildExpenseCategoryList(),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
-        ],
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.black,
-        type: BottomNavigationBarType.fixed,
-      ),
+      bottomNavigationBar: BottomNavbar(context),
     );
   }
 

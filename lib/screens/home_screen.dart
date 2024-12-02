@@ -19,14 +19,14 @@ class HomeScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [Color(0xFFCCFF00), Color(0xFFB2E600)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
@@ -83,12 +83,12 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               // Section Pengeluaran Terbesar Bulan ini
-              SizedBox(height: 75),
-              Text(
+              const SizedBox(height: 75),
+              const Text(
                 'Pengeluaran Terbesar Bulan ini',
                 style: TextStyle(fontSize: 18, fontFamily: "Poppins_Bold"),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Column(
                 children: [
                   ExpenseItemHome('Fashion', 'Sepatu ardiles', 'Rp100,000.00'),
@@ -97,10 +97,10 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               // Section Recap Bulan Ini
-              SizedBox(height: 75),
+              const SizedBox(height: 75),
               IncomeExpenseRowHome(title: 'Recap bulan ini'),
               // Doughnut Chart
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               DoughnutChart(),
             ],
           ),

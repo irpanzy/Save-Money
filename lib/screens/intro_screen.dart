@@ -4,11 +4,11 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFCCFF00),
+      backgroundColor: const Color(0xFFCCFF00),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
+          const Expanded(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -31,12 +31,12 @@ class IntroScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/input_name');
               },
-              child: Text('Start'),
+              child: const Text('Start'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                foregroundColor: Color(0xFFCCFF00),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                textStyle: TextStyle(fontSize: 18, fontFamily: "Poppins_Regular"),
+                foregroundColor: const Color(0xFFCCFF00),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                textStyle: const TextStyle(fontSize: 18, fontFamily: "Poppins_Regular"),
               ),
             ),
           ),

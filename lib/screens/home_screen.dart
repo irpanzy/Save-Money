@@ -27,16 +27,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           ListView(children: [
+            SaldoSection(),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SaldoSection(),
-                  const SizedBox(height: 75),
+                  const SizedBox(height: 40),
                   LargestExpenseSection(),
                   const SizedBox(height: 75),
                   RecapSection(),
+                  const SizedBox(height: 75),
                 ],
               ),
             ),

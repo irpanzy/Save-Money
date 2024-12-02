@@ -35,7 +35,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200.0),
         child: HistoryAppBar(
@@ -52,11 +52,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
           },
         ),
       ),
-      body: HistoryTransactionList(transactions: filteredTransactions),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
-      ),
+      body: Stack(children: [
+        ListView(children: [
+          HistoryTransactionList(transactions: filteredTransactions)
+        ]),
+        BottomNavbar(
+          currentIndex: _currentIndex,
+          onTap: _onTap,
+        )
+      ]),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 
 class HistoryAppBar extends StatelessWidget {
   final String selectedFilter;
@@ -17,12 +18,12 @@ class HistoryAppBar extends StatelessWidget {
     final filters = ["Hari", "Minggu", "Bulan", "Tahun"];
 
     return AppBar(
-      backgroundColor: const Color(0xFFCCFF00),
+      backgroundColor: ColorStyle.primaryColor50,
       automaticallyImplyLeading: false,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 8), 
+          const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(

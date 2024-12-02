@@ -18,6 +18,7 @@ class ColorStyle {
   // Border Colors
   static const borderBlackActive = Color(0xCC000000);
   static const borderBlack = Color(0x33000000);
+  static const borderBlackLow = Color.fromRGBO(0, 0, 0, 0.050);
 
   // Icon Colors
   static const iconActive = Color(0xE3000000);

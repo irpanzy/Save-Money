@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/screens/sub_category_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/statistik_screen.dart';
 import 'screens/input_screen.dart';
@@ -31,6 +32,7 @@ class SaveMoneyApp extends StatelessWidget {
         '/input': (context) => InputScreen(),
         '/statistik': (context) => StatistikScreen(),
         '/settings': (context) => SettingsScreen(),
+        '/subcategory' : (context) => SubCategoryScreen(),
       },
     );
   }

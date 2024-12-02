@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import '../helpers/navigation_helper.dart';
 import '../widgets/bottom_navbar.dart';
-import '../widgets/home/expense_item_home.dart';
-import '../widgets/home/income_expense_row_home.dart';
-import '../widgets/home/doughnut_chart_home.dart';
+import '../widgets/home/largest_expense_widget.dart';
+import '../widgets/home/saldo_widget.dart';
+import '../widgets/home/recap_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+
+  void _onTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    NavigationHelper.navigateTo(index, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,98 +30,19 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Section Saldo
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFCCFF00), Color(0xFFB2E600)],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/ganesha.png'),
-                          radius: 24,
-                        ),
-                        SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hallo!',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: "Poppins_Regular",
-                              ),
-                            ),
-                            Text(
-                              'Ganesha Rahman',
-                              style: TextStyle(
-                                  fontSize: 16, fontFamily: "Poppins_SemiBold"),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Icon(Icons.notifications_none, color: Colors.black54),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Saldo anda',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: "Poppins_Regular",
-                              color: Colors.black54,
-                            ),
-                          ),
-                          Text(
-                            '150.000 IDR',
-                            style: TextStyle(
-                                fontSize: 40, fontFamily: "Poppins_Bold"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Section Pengeluaran Terbesar Bulan ini
-              const SizedBox(height: 75),
-              const Text(
-                'Pengeluaran Terbesar Bulan ini',
-                style: TextStyle(fontSize: 18, fontFamily: "Poppins_Bold"),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: [
-                  ExpenseItemHome('Fashion', 'Sepatu ardiles', 'Rp100,000.00'),
-                  ExpenseItemHome('Sedekah', 'Traktir teman', 'Rp50,000.00'),
-                  ExpenseItemHome('Rumah', 'Lampu Bohlam', 'Rp50,000.00'),
-                ],
-              ),
-              // Section Recap Bulan Ini
-              const SizedBox(height: 75),
-              IncomeExpenseRowHome(title: 'Recap bulan ini'),
-              // Doughnut Chart
-              const SizedBox(height: 40),
-              DoughnutChart(),
+              SaldoSection(),
+              SizedBox(height: 75),
+              LargestExpenseSection(),
+              SizedBox(height: 75),
+              RecapSection(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavbar(context),
+      bottomNavigationBar: BottomNavbar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+      ),
     );
   }
 }

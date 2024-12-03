@@ -27,106 +27,120 @@ class _StatistikScreenState extends State<StatistikScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {},
-            ),
-            Text(
-              'Statistik',
-              style: TypographyStyle.h4,
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                side: const BorderSide(color: Colors.black),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 8.0),
-              ),
-              child: const Text(
-                'May 2024 >',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           ListView(
             children: [
-              Column(
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.black),
+                      onPressed: () {},
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Statistik',
+                      style: TypographyStyle.h4,
+                    ),
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        side: const BorderSide(color: Colors.black),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 8.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8), // Menambahkan border radius 8px
+                        ),
+                      ),
+                      child: const Text(
+                        'May 2024 >',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isIncomeSelected = true;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              'Pemasukan',
-                              style: TypographyStyle.h5,
-                            ),
-                            if (isIncomeSelected)
-                              Container(
-                                height: 2,
-                                width: 120,
-                                color: Colors.black,
-                              ),
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isIncomeSelected = true;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        // Container dengan ukuran tetap agar teks tetap di posisi yang sama
+                        Container(
+                          width: 120, // Ukuran tetap agar teks tidak bergeser
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Pemasukan',
+                            style: TypographyStyle.h5,
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isIncomeSelected = false;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              'Pengeluaran',
-                              style: TypographyStyle.h5,
-                            ),
-                            if (!isIncomeSelected)
-                              Container(
-                                height: 2,
-                                width: 120,
-                                color: Colors.black,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
+                        const SizedBox(
+                            height: 8), // Jarak antara teks dan garis
+                        // Menampilkan garis jika Pemasukan dipilih
+                        if (isIncomeSelected)
+                          Container(
+                            height: 2,
+                            width: 120,
+                            color: Colors.black,
+                          ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 30),
-                  DoughnutChart(),
-                  const SizedBox(height: 30),
-                  ListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    children: isIncomeSelected
-                        ? _buildIncomeCategoryList()
-                        : _buildExpenseCategoryList(),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isIncomeSelected = false;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        // Container dengan ukuran tetap agar teks tidak bergeser
+                        Container(
+                          width: 120, // Ukuran tetap agar teks tidak bergeser
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Pengeluaran',
+                            style: TypographyStyle.h5,
+                          ),
+                        ),
+                        const SizedBox(
+                            height: 8), // Jarak antara teks dan garis
+                        // Menampilkan garis jika Pengeluaran dipilih
+                        if (!isIncomeSelected)
+                          Container(
+                            height: 2,
+                            width: 120,
+                            color: Colors.black,
+                          ),
+                      ],
+                    ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(height: 30),
+              DoughnutChart(),
+              const SizedBox(height: 30),
+              ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                children: isIncomeSelected
+                    ? _buildIncomeCategoryList()
+                    : _buildExpenseCategoryList(),
+              ),
             ],
           ),
           BottomNavbar(

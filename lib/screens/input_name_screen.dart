@@ -23,7 +23,8 @@ class InputNameScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Masukkan nama anda',
-                  hintStyle: TextStyle(fontSize: 14, fontFamily: "Poppins_Regular"),
+                  hintStyle:
+                      TextStyle(fontSize: 14, fontFamily: "Poppins_Regular"),
                 ),
               ),
             ),
@@ -36,8 +37,10 @@ class InputNameScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 foregroundColor: const Color(0xFFCCFF00),
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                textStyle: const TextStyle(fontSize: 18, fontFamily: "Poppins_Regular"),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                textStyle: const TextStyle(
+                    fontSize: 18, fontFamily: "Poppins_Regular"),
               ),
             ),
           ],

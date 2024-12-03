@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/helpers/navigation_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import 'package:project_apk_catatan_keuangan/widgets/bottom_navbar.dart';
 import 'package:project_apk_catatan_keuangan/widgets/home/doughnut_chart_widget.dart';
 import 'package:project_apk_catatan_keuangan/widgets/statistic/category_card.dart';
+import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown.dart';
 
 class StatistikScreen extends StatefulWidget {
   const StatistikScreen({super.key});
@@ -37,7 +39,12 @@ class _StatistikScreenState extends State<StatistikScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.black),
+                      icon: const Icon(
+                        Symbols.arrow_back_rounded,
+                        color: Colors.black,
+                        size: 24,
+                        weight: 600,
+                      ),
                       onPressed: () {},
                     ),
                     const SizedBox(width: 8),
@@ -46,24 +53,7 @@ class _StatistikScreenState extends State<StatistikScreen> {
                       style: TypographyStyle.h4,
                     ),
                     const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        side: const BorderSide(color: Colors.black),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 8.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              8), // Menambahkan border radius 8px
-                        ),
-                      ),
-                      child: const Text(
-                        'May 2024 >',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    )
+                    const MonthSelector(),
                   ],
                 ),
               ),
@@ -79,18 +69,15 @@ class _StatistikScreenState extends State<StatistikScreen> {
                     },
                     child: Column(
                       children: [
-                        // Container dengan ukuran tetap agar teks tetap di posisi yang sama
                         Container(
-                          width: 120, // Ukuran tetap agar teks tidak bergeser
+                          width: 120,
                           alignment: Alignment.center,
                           child: Text(
                             'Pemasukan',
                             style: TypographyStyle.h5,
                           ),
                         ),
-                        const SizedBox(
-                            height: 8), // Jarak antara teks dan garis
-                        // Menampilkan garis jika Pemasukan dipilih
+                        const SizedBox(height: 8),
                         if (isIncomeSelected)
                           Container(
                             height: 2,
@@ -108,18 +95,15 @@ class _StatistikScreenState extends State<StatistikScreen> {
                     },
                     child: Column(
                       children: [
-                        // Container dengan ukuran tetap agar teks tidak bergeser
                         Container(
-                          width: 120, // Ukuran tetap agar teks tidak bergeser
+                          width: 120,
                           alignment: Alignment.center,
                           child: Text(
                             'Pengeluaran',
                             style: TypographyStyle.h5,
                           ),
                         ),
-                        const SizedBox(
-                            height: 8), // Jarak antara teks dan garis
-                        // Menampilkan garis jika Pengeluaran dipilih
+                        const SizedBox(height: 8),
                         if (!isIncomeSelected)
                           Container(
                             height: 2,
@@ -131,9 +115,9 @@ class _StatistikScreenState extends State<StatistikScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 32),
               DoughnutChart(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 32),
               ListView(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -141,6 +125,7 @@ class _StatistikScreenState extends State<StatistikScreen> {
                     ? _buildIncomeCategoryList()
                     : _buildExpenseCategoryList(),
               ),
+              const SizedBox(height: 80),
             ],
           ),
           BottomNavbar(

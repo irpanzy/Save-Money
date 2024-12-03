@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../../style/color_style.dart';
 
@@ -12,24 +14,23 @@ class _SaldoWidgetState extends State<SaldoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity, 
+      width: double.infinity,
       decoration: BoxDecoration(
         color: ColorStyle.primaryColor50,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 40.0, vertical: 50.0), 
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundImage: AssetImage('assets/images/ganesha.png'),
                   radius: 24,
                 ),
-                SizedBox(width: 8),
-                Column(
+                const SizedBox(width: 8),
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -50,22 +51,24 @@ class _SaldoWidgetState extends State<SaldoWidget> {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      _isNotified = !_isNotified; // Toggle notification state
+                      _isNotified = !_isNotified;
                     });
                   },
                   child: Icon(
-                    _isNotified ? Icons.notifications : Icons.notifications_none,
+                    _isNotified
+                        ? Icons.notifications
+                        : Icons.notifications_none,
                     color: ColorStyle.iconActive,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 40),
-            Center(
+            const SizedBox(height: 40),
+            const Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

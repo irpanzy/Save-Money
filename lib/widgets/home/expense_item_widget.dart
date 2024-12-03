@@ -15,25 +15,34 @@ class ExpenseItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Poppins_Bold",
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    category,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins_Bold",
+                    ),
+                  ),
                 ),
-              ),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: "Poppins_Medium",
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins_Medium",
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          SizedBox(width: 10),
           Text(
             amount,
             style: TextStyle(

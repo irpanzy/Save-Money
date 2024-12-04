@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/home/chart_data_model.dart';
+import '../../style/color_style.dart';
 
 class DoughnutChart extends StatelessWidget {
   @override
@@ -32,8 +33,8 @@ class DoughnutChart extends StatelessWidget {
 
   List<ChartDataHome> _getChartDataHome() {
     return [
-      ChartDataHome('Pemasukan', 20, '20%', Color(0xFFB2E600)),
-      ChartDataHome('Pengeluaran', 80, '80%', Color(0xFFE60000)),
+      ChartDataHome('Pemasukan', 20, '20%', ColorStyle.incomeChartHome),
+      ChartDataHome('Pengeluaran', 80, '80%', ColorStyle.secondaryColor50),
     ];
   }
 }

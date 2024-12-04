@@ -1,45 +1,53 @@
 import 'package:flutter/material.dart';
+import '../../style/color_style.dart';
 
-class ExpenseItemHome extends StatelessWidget {
+class ExpenseItemWidget extends StatelessWidget {
   final String category;
   final String description;
   final String amount;
 
-  ExpenseItemHome(this.category, this.description, this.amount);
+  ExpenseItemWidget(this.category, this.description, this.amount);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Poppins_Medium",
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    category,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins_Bold",
+                    ),
+                  ),
                 ),
-              ),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[700],
-                  fontFamily: "Poppins_Regular",
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Poppins_Medium",
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          SizedBox(width: 10),
           Text(
             amount,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFFE60000),
+              color: ColorStyle.expenditureColor,
               fontFamily: "Poppins_Medium",
             ),
           ),

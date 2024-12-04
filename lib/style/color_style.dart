@@ -18,8 +18,13 @@ class ColorStyle {
   // Border Colors
   static const borderBlackActive = Color(0xCC000000);
   static const borderBlack = Color(0x33000000);
+  static const borderBlackLow = Color.fromRGBO(0, 0, 0, 0.050);
 
   // Icon Colors
   static const iconActive = Color(0xE3000000);
   static const iconNotActive = Color(0x66000000);
+  static const black54 = Color.fromARGB(138, 0, 0, 0);
+  static const incomeColorHome = Color(0xFFB2E600);
+  static const expenditureColorHome = Color(0xFFE60000);
+  static const incomeChartHome = Color(0xFFB2E600);
 }

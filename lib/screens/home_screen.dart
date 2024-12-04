@@ -23,25 +23,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SaldoSection(),
-              SizedBox(height: 75),
-              LargestExpenseSection(),
-              SizedBox(height: 75),
-              RecapSection(),
-            ],
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          ListView(children: [
+            SaldoWidget(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 40),
+                  LargestExpenseWidget(),
+                  const SizedBox(height: 75),
+                  RecapWidget(),
+                  const SizedBox(height: 75),
+                ],
+              ),
+            ),
+          ]),
+          BottomNavbar(
+            currentIndex: _currentIndex,
+            onTap: _onTap,
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
+        ],
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import '../../style/color_style.dart';
 
@@ -13,23 +11,30 @@ class _SaldoWidgetState extends State<SaldoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: ColorStyle.primaryColor50,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: 15.0, vertical: 15.0), 
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [ColorStyle.primaryColor50, ColorStyle.primaryColor60],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(15), 
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
+                const SizedBox(width: 10),
                 const CircleAvatar(
                   backgroundImage: AssetImage('assets/images/ganesha.png'),
                   radius: 24,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 10),
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -65,6 +70,7 @@ class _SaldoWidgetState extends State<SaldoWidget> {
                     color: ColorStyle.iconActive,
                   ),
                 ),
+                const SizedBox(width: 10),
               ],
             ),
             const SizedBox(height: 40),

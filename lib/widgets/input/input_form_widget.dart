@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:intl/intl.dart';
+import '../../style/color_style.dart';
 
 class InputFormWidget extends StatefulWidget {
   final bool isIncome;
@@ -29,14 +30,14 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           style: const TextStyle(
             fontFamily: "Poppins_Regular",
             fontSize: 14,
-            color: Colors.black,
+            color: ColorStyle.primaryTextBlack,
           ),
           decoration: InputDecoration(
             labelText: 'Tanggal',
             labelStyle: const TextStyle(
               fontFamily: "Poppins_Regular",
               fontSize: 14,
-              color: Colors.black54,
+              color: ColorStyle.primaryTextBlack,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -57,7 +58,7 @@ class _InputFormWidgetState extends State<InputFormWidget> {
                   style: const TextStyle(
                     fontFamily: "Poppins_Regular",
                     fontSize: 14,
-                    color: Colors.black,
+                    color: ColorStyle.primaryTextBlack,
                   ),
                 ),
               ),
@@ -71,14 +72,14 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           iconStyleData: const IconStyleData(
             icon: Icon(
               Icons.arrow_drop_down,
-              color: Colors.black54,
+              color: ColorStyle.primaryTextBlack,
             ),
             iconSize: 25,
           ),
           dropdownStyleData: DropdownStyleData(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color.fromARGB(255, 30, 5, 5)),
+              border: Border.all(color: ColorStyle.primaryTextBlack),
             ),
             maxHeight: 200,
           ),
@@ -87,11 +88,11 @@ class _InputFormWidgetState extends State<InputFormWidget> {
             labelStyle: const TextStyle(
               fontFamily: "Poppins_Regular",
               fontSize: 14,
-              color: Colors.black54,
+              color: ColorStyle.primaryTextBlack,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.grey),
+              borderSide: const BorderSide(color: ColorStyle.grey),
             ),
           ),
         ),
@@ -102,7 +103,7 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           style: const TextStyle(
             fontFamily: "Poppins_Regular",
             fontSize: 14,
-            color: Colors.black,
+            color: ColorStyle.primaryTextBlack,
           ),
           decoration: InputDecoration(
             labelText: 'Jumlah',
@@ -110,7 +111,7 @@ class _InputFormWidgetState extends State<InputFormWidget> {
             labelStyle: const TextStyle(
               fontFamily: "Poppins_Regular",
               fontSize: 14,
-              color: Colors.black54,
+              color: ColorStyle.primaryTextBlack,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -123,14 +124,14 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           style: const TextStyle(
             fontFamily: "Poppins_Regular",
             fontSize: 14,
-            color: Colors.black,
+            color: ColorStyle.primaryTextBlack,
           ),
           decoration: InputDecoration(
             labelText: 'Keterangan',
             labelStyle: const TextStyle(
               fontFamily: "Poppins_Regular",
               fontSize: 14,
-              color: Colors.black54,
+              color: ColorStyle.primaryTextBlack,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

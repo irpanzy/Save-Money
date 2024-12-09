@@ -19,7 +19,7 @@ class SaveMoneyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SaveMoney',
+      title: 'Save Money',
       theme: ThemeData(
         primarySwatch: Colors.lime,
       ),

@@ -40,7 +40,7 @@ class CategoryCard extends StatelessWidget {
           child: Text(
             '$percentage%',
             style: isIncomeSelected
-                ? TypographyStyle.l3Bold
+                ? TypographyStyle.l3Bold.copyWith(color: Colors.black)
                 : TypographyStyle.l3Bold.copyWith(color: Colors.white),
           ),
         ),

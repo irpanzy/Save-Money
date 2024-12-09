@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
-class CategoryCard extends StatelessWidget {
+class CategoryCard extends StatefulWidget {
   final String title;
   final String amount;
   final bool isIncomeSelected;
-  final double percentage;
+  final int percentage;
 
   const CategoryCard(
       {super.key,
@@ -16,15 +16,19 @@ class CategoryCard extends StatelessWidget {
       required this.percentage});
 
   @override
+  State<CategoryCard> createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<CategoryCard> {
+  @override
   Widget build(BuildContext context) {
-    print('isIncomeSelected on $title: $isIncomeSelected');
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: ColorStyle.borderBlack, // Warna border
-          width: 1, // Ketebalan border
+          color: ColorStyle.borderBlack,
+          width: 1,
         ),
         borderRadius: BorderRadius.circular(8), // Radius sudut border
       ),
@@ -32,23 +36,23 @@ class CategoryCard extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: isIncomeSelected
+            color: widget.isIncomeSelected
                 ? ColorStyle.primaryColor60
                 : ColorStyle.secondaryColor50,
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Text(
-            '$percentage%',
-            style: isIncomeSelected
+            '${widget.percentage}%',
+            style: widget.isIncomeSelected
                 ? TypographyStyle.l3Bold.copyWith(color: Colors.black)
                 : TypographyStyle.l3Bold.copyWith(color: Colors.white),
           ),
         ),
         title: Text(
-          title,
+          widget.title,
           style: TypographyStyle.l2Regular,
         ),
-        trailing: Text(amount, style: TypographyStyle.l2Regular),
+        trailing: Text(widget.amount, style: TypographyStyle.l2Regular),
       ),
     );
   }

@@ -29,16 +29,18 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 280, // Lebar container tombol
+          width: 280,
+          height: 50,
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: ColorStyle.primaryTextWhite,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: ColorStyle.greyLow),
-            boxShadow: [
+            border: Border.all(color: ColorStyle.borderBlackLow),
+            boxShadow: const [
               BoxShadow(
-                color: ColorStyle.greyLow,
+                color: ColorStyle.Shadow,
                 blurRadius: 6,
-                offset: const Offset(0, 2),
+                offset: Offset(0, 6),
               ),
             ],
           ),
@@ -53,15 +55,11 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                     widget.onToggle(isIncome); // Notifikasi perubahan status
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: isIncome
-                          ? ColorStyle.primaryColor60 // Hijau untuk Pemasukan
+                          ? ColorStyle.primaryColor60
                           : Colors.transparent,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8),
-                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(6)),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -87,12 +85,10 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: !isIncome
-                          ? ColorStyle.secondaryColor50 // Merah untuk Pengeluaran
+                          ? ColorStyle
+                              .secondaryColor50 // Merah untuk Pengeluaran
                           : Colors.transparent,
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(6)),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -100,7 +96,9 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                       style: TextStyle(
                         fontFamily: "Poppins_Medium",
                         fontSize: 16,
-                        color: !isIncome ? ColorStyle.primaryTextWhite : ColorStyle.primaryTextBlack,
+                        color: !isIncome
+                            ? ColorStyle.primaryTextWhite
+                            : ColorStyle.primaryTextBlack,
                       ),
                     ),
                   ),

@@ -26,21 +26,20 @@ class InputNameScreen extends StatelessWidget {
                   hintStyle:
                       TextStyle(fontSize: 14, fontFamily: "Poppins_Regular"),
                 ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
-              child: const Text('Next'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: const Color(0xFFCCFF00),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                textStyle: const TextStyle(
-                    fontSize: 18, fontFamily: "Poppins_Regular"),
+                onSubmitted: (value) {
+                  if (value.isNotEmpty) {
+                    Navigator.pushNamed(context, '/home');
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Nama tidak boleh kosong!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                textInputAction:
+                    TextInputAction.done, // Tombol Enter di keyboard
               ),
             ),
           ],

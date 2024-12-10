@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
+
 
 class ExpenseItemWidget extends StatelessWidget {
   final String category;
@@ -21,36 +22,17 @@ class ExpenseItemWidget extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: Text(
-                    category,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins_Bold",
-                    ),
-                  ),
+                  child: Text(category, style: TypographyStyle.p2Regular),
                 ),
                 Expanded(
                   flex: 3,
-                  child: Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins_Medium",
-                    ),
-                  ),
+                  child: Text(description, style: TypographyStyle.p2Regular),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 10),
-          Text(
-            amount,
-            style: TextStyle(
-              fontSize: 14,
-              color: ColorStyle.expenditureColor,
-              fontFamily: "Poppins_Medium",
-            ),
-          ),
+          const SizedBox(width: 10),
+          Text(amount, style: TypographyStyle.p2Bold),
         ],
       ),
     );

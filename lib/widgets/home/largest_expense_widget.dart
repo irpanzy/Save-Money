@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import 'expense_item_widget.dart';
 
 class LargestExpenseWidget extends StatelessWidget {
@@ -9,9 +10,9 @@ class LargestExpenseWidget extends StatelessWidget {
       children: [
         Text(
           'Pengeluaran Terbesar Bulan ini',
-          style: TextStyle(fontSize: 18, fontFamily: "Poppins_Bold"),
+          style: TypographyStyle.h4,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Column(
           children: [
             ExpenseItemWidget('Fashion', 'Sepatu ardiles', 'Rp100,000.00'),

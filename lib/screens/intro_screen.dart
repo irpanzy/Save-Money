@@ -1,46 +1,43 @@
 import 'package:flutter/material.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
+  const IntroScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _IntroScreenState createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(context, '/input_name');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFCCFF00),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'SaveMoney',
-                    style: TextStyle(fontSize: 40, fontFamily: "Poppins_SemiBold"), 
-                  ),
-                  Text(
-                    'Kelola keuangan anda',
-                    style: TextStyle(fontSize: 12, fontFamily: "Poppins_Light"), 
-                  ),
-                ],
-              ),
+    return const Scaffold(
+      backgroundColor: Color(0xFFCCFF00),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'SaveMoney',
+              style: TextStyle(fontSize: 40, fontFamily: "Poppins_SemiBold"),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/input_name');
-              },
-              child: const Text('Start'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: const Color(0xFFCCFF00),
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                textStyle: const TextStyle(fontSize: 18, fontFamily: "Poppins_Regular"),
-              ),
+            SizedBox(height: 8),
+            Text(
+              'Kelola keuangan anda',
+              style: TextStyle(fontSize: 12, fontFamily: "Poppins_Light"),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

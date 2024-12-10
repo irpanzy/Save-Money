@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../style/color_style.dart';
 
 class ToggleIncomeExpenseWidget extends StatefulWidget {
   final bool isIncome;
@@ -30,12 +31,12 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
         Container(
           width: 280, // Lebar container tombol
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: ColorStyle.primaryTextWhite,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
+            border: Border.all(color: ColorStyle.greyLow),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.shade200,
+                color: ColorStyle.greyLow,
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -55,7 +56,7 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: isIncome
-                          ? const Color(0xFFB2E600) // Hijau untuk Pemasukan
+                          ? ColorStyle.primaryColor60 // Hijau untuk Pemasukan
                           : Colors.transparent,
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(8),
@@ -86,7 +87,7 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: !isIncome
-                          ? const Color(0xFFE60000) // Merah untuk Pengeluaran
+                          ? ColorStyle.secondaryColor50 // Merah untuk Pengeluaran
                           : Colors.transparent,
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(8),
@@ -99,7 +100,7 @@ class _ToggleIncomeExpenseWidgetState extends State<ToggleIncomeExpenseWidget> {
                       style: TextStyle(
                         fontFamily: "Poppins_Medium",
                         fontSize: 16,
-                        color: !isIncome ? Colors.white : Colors.black,
+                        color: !isIncome ? ColorStyle.primaryTextWhite : ColorStyle.primaryTextBlack,
                       ),
                     ),
                   ),

@@ -19,6 +19,8 @@ class ColorStyle {
   static const borderBlackActive = Color(0xCC000000);
   static const borderBlack = Color(0x33000000);
   static const borderBlackLow = Color.fromRGBO(0, 0, 0, 0.050);
+  static const grey = Color.fromARGB(255, 158, 158, 158);
+  static const greyLow = Color.fromARGB(255, 224, 224, 224);
 
   // Icon Colors
   static const iconActive = Color(0xE3000000);

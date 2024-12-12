@@ -8,13 +8,15 @@ import 'screens/input_name_screen.dart';
 import 'screens/intro_screen.dart';
 
 void main() {
-  runApp(SaveMoneyApp());
+  runApp(const SaveMoneyApp());
 }
 
 // Global state untuk menyimpan transaksi
 List<Map<String, dynamic>> globalTransactions = [];
 
 class SaveMoneyApp extends StatelessWidget {
+  const SaveMoneyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,10 +30,10 @@ class SaveMoneyApp extends StatelessWidget {
         '/': (context) => IntroScreen(),
         '/input_name': (context) => InputNameScreen(),
         '/home': (context) => HomeScreen(),
-        '/history': (context) => HistoryScreen(),
-        '/input': (context) => InputScreen(),
-        '/statistik': (context) => StatistikScreen(),
-        '/settings': (context) => SettingsScreen(),
+        '/history': (context) => const HistoryScreen(),
+        '/input': (context) => const InputScreen(),
+        '/statistik': (context) => const StatistikScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
     );
   }

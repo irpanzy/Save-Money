@@ -52,7 +52,7 @@ class _InputScreenState extends State<InputScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: 425,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

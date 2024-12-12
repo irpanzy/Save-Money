@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../../style/color_style.dart';
 
 class SaldoWidget extends StatefulWidget {
+  const SaldoWidget({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SaldoWidgetState createState() => _SaldoWidgetState();
 }
 
 class _SaldoWidgetState extends State<SaldoWidget> {
-  bool _isNotified = false; // Track notification icon state
+  bool _isNotified = false; 
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 15.0, vertical: 15.0), 
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -22,7 +25,7 @@ class _SaldoWidgetState extends State<SaldoWidget> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
-          borderRadius: BorderRadius.circular(15), 
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,25 +38,11 @@ class _SaldoWidgetState extends State<SaldoWidget> {
                   radius: 24,
                 ),
                 const SizedBox(width: 10),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hallo!',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: "Poppins_Regular",
-                        color: ColorStyle.secondaryTextBlack,
-                      ),
-                    ),
-                    Text(
-                      'Ganesha Rahman',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "Poppins_SemiBold",
-                        color: ColorStyle.primaryTextBlack,
-                      ),
-                    ),
+                    Text('Hallo!', style: TypographyStyle.l3Regular),
+                    Text('Ganesha Rahman', style: TypographyStyle.l1Bold),
                   ],
                 ),
                 const Spacer(),
@@ -74,26 +63,14 @@ class _SaldoWidgetState extends State<SaldoWidget> {
               ],
             ),
             const SizedBox(height: 40),
-            const Center(
+            Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Saldo anda',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins_Regular",
-                      color: ColorStyle.secondaryTextBlack,
-                    ),
-                  ),
-                  Text(
-                    '150.000 IDR',
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: "Poppins_Bold",
-                      color: ColorStyle.primaryTextBlack,
-                    ),
-                  ),
+                  Text('Saldo anda', style: TypographyStyle.l2Regular),
+                  Text('150.000 IDR',
+                      style: TypographyStyle.h1
+                          .copyWith(fontSize: 40, fontFamily: "Poppins_bold")),
                 ],
               ),
             ),

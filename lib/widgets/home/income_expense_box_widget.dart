@@ -5,16 +5,16 @@ import '../../style/color_style.dart';
 class IncomeExpenseBoxWidget extends StatelessWidget {
   final IncomeExpenseDataModel data;
 
-  IncomeExpenseBoxWidget(this.data);
+  const IncomeExpenseBoxWidget(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: ColorStyle.primaryTextWhite,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: ColorStyle.borderBlack,
             blurRadius: 1,
@@ -26,7 +26,7 @@ class IncomeExpenseBoxWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: data.color,
               borderRadius: BorderRadius.circular(10),
@@ -36,18 +36,18 @@ class IncomeExpenseBoxWidget extends StatelessWidget {
               color: ColorStyle.primaryTextWhite,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             data.title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontFamily: "Poppins_SemiBold",
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Text(
             data.amount,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               color: ColorStyle.primaryTextBlack,
               fontFamily: "Poppins_Bold",

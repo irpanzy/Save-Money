@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class InputNameScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
@@ -6,25 +8,38 @@ class InputNameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFCCFF00),
+      backgroundColor: ColorStyle.primaryColor50,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'Siapa Nama Anda',
-              style: TextStyle(fontSize: 24, fontFamily: "Poppins_SemiBold"),
+              style: TypographyStyle.h3,
             ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText: 'Masukkan nama anda',
-                  hintStyle:
-                      TextStyle(fontSize: 14, fontFamily: "Poppins_Regular"),
+                  hintStyle: TypographyStyle.l2Regular,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.black,
+                      width: 3.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
                 onSubmitted: (value) {
                   if (value.isNotEmpty) {

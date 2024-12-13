@@ -27,9 +27,9 @@ class SaveMoneyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => IntroScreen(),
+        '/': (context) => const IntroScreen(),
         '/input_name': (context) => InputNameScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => const HomeScreen(),
         '/history': (context) => const HistoryScreen(),
         '/input': (context) => const InputScreen(),
         '/statistik': (context) => const StatistikScreen(),

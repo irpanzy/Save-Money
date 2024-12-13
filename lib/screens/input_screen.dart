@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/input/input_form_widget.dart';
 import '../widgets/input/toggle_income_expense_widget.dart';
@@ -29,7 +32,10 @@ class _InputScreenState extends State<InputScreen> {
       appBar: AppBar(
         title: const Text(
           'Buat Transaksi',
-          style: TextStyle(fontFamily: "Poppins_SemiBold", fontSize: 18, color: Colors.black),
+          style: TextStyle(
+              fontFamily: "Poppins_SemiBold",
+              fontSize: 18,
+              color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -41,10 +47,8 @@ class _InputScreenState extends State<InputScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 25.0),
             child: IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red),
-              onPressed: () {
-                // Add delete functionality
-              },
+              icon: Icon(Symbols.delete, color: ColorStyle.secondaryColor50),
+              onPressed: () {},
             ),
           ),
         ],
@@ -57,29 +61,32 @@ class _InputScreenState extends State<InputScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ToggleIncomeExpenseWidget(isIncome: isIncome, onToggle: (value) {
-                  setState(() {
-                    isIncome = value;
-                  });
-                }),
+                ToggleIncomeExpenseWidget(
+                    isIncome: isIncome,
+                    onToggle: (value) {
+                      setState(() {
+                        isIncome = value;
+                      });
+                    }),
                 const SizedBox(height: 35),
                 InputFormWidget(isIncome: isIncome),
                 const SizedBox(height: 35),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Add save functionality here
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isIncome ? const Color(0xFFB2E600) : const Color(0xFFE60000),
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+                      backgroundColor: isIncome
+                          ? ColorStyle.primaryColor60
+                          : ColorStyle.secondaryColor50,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Simpan',
-                      style: TextStyle(fontFamily: "Poppins_SemiBold", fontSize: 16, color: Colors.white),
+                      style: TypographyStyle.h4.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -87,10 +94,6 @@ class _InputScreenState extends State<InputScreen> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
       ),
     );
   }

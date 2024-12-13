@@ -33,7 +33,7 @@ class SaveMoneyApp extends StatelessWidget {
         '/history': (context) => const HistoryScreen(),
         '/input': (context) => const InputScreen(),
         '/statistik': (context) => const StatistikScreen(),
-        '/settings': (context) => const SettingsScreen(),
+        '/settings': (context) => SettingsScreen(),
       },
     );
   }

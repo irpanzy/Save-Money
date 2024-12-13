@@ -1,48 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
-class ExpenseItemHome extends StatelessWidget {
+class ExpenseItemWidget extends StatelessWidget {
   final String category;
   final String description;
   final String amount;
 
-  ExpenseItemHome(this.category, this.description, this.amount);
+  const ExpenseItemWidget(this.category, this.description, this.amount,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Poppins_Medium",
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(category, style: TypographyStyle.p2Regular),
                 ),
-              ),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[700],
-                  fontFamily: "Poppins_Regular",
+                Expanded(
+                  flex: 3,
+                  child: Text(description, style: TypographyStyle.p2Regular),
                 ),
-              ),
-            ],
-          ),
-          Text(
-            amount,
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFFE60000),
-              fontFamily: "Poppins_Medium",
+              ],
             ),
           ),
+          const SizedBox(width: 10),
+          Text(amount,
+              style: TypographyStyle.p2Regular
+                  .copyWith(color: ColorStyle.expenditureColor)),
         ],
       ),
     );

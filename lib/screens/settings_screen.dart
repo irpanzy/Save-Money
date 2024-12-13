@@ -22,16 +22,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFCCFF00),
-      body: Center(
-        child: Text(
-          'Settings Screen',
-          style: TextStyle(fontSize: 24, fontFamily: "Poppins_SemiBold"),
-        ),
-      ),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
+      backgroundColor: const Color(0xFFCCFF00),
+      body: Stack(
+        children: [
+          const Center(
+            child: Text(
+              'Settings Screen',
+              style: TextStyle(fontSize: 24, fontFamily: "Poppins_SemiBold"),
+            ),
+          ),
+          BottomNavbar(
+            currentIndex: _currentIndex,
+            onTap: _onTap,
+          )
+        ],
       ),
     );
   }

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../models/home/income_expense_data_model.dart';
+import '../../style/color_style.dart';
 
-class IncomeExpenseBoxHome extends StatelessWidget {
-  final IncomeExpenseDataHome data;
+class IncomeExpenseBoxWidget extends StatelessWidget {
+  final IncomeExpenseDataModel data;
 
-  IncomeExpenseBoxHome(this.data);
+  const IncomeExpenseBoxWidget(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorStyle.primaryTextWhite,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
+            color: ColorStyle.borderBlack,
+            blurRadius: 1,
             offset: Offset(0, 0),
           ),
         ],
@@ -26,30 +26,30 @@ class IncomeExpenseBoxHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: data.color,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               data.icon,
-              color: Colors.white,
+              color: ColorStyle.primaryTextWhite,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             data.title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontFamily: "Poppins_SemiBold",
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Text(
             data.amount,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
-              color: Colors.black,
+              color: ColorStyle.primaryTextBlack,
               fontFamily: "Poppins_Bold",
             ),
           ),

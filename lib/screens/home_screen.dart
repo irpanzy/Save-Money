@@ -6,7 +6,10 @@ import '../widgets/home/saldo_widget.dart';
 import '../widgets/home/recap_widget.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -23,25 +26,28 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SaldoSection(),
-              SizedBox(height: 75),
-              LargestExpenseSection(),
-              SizedBox(height: 75),
-              RecapSection(),
-            ],
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          ListView(children: [
+            SizedBox(
+              child: Column(
+                children: [
+                  const SaldoWidget(),
+                  const SizedBox(height: 24),
+                  const LargestExpenseWidget(),
+                  const SizedBox(height: 48),
+                  RecapWidget(),
+                  const SizedBox(height: 75),
+                ],
+              ),
+            ),
+          ]),
+          BottomNavbar(
+            currentIndex: _currentIndex,
+            onTap: _onTap,
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
+        ],
       ),
     );
   }

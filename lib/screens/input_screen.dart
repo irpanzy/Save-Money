@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import '../widgets/bottom_navbar.dart';
 import '../widgets/input/input_form_widget.dart';
 import '../widgets/input/toggle_income_expense_widget.dart';
 import '../helpers/navigation_helper.dart';

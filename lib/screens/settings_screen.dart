@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import '../helpers/navigation_helper.dart';
 import '../widgets/bottom_navbar.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -142,8 +141,7 @@ class SettingsScreen extends StatelessWidget {
             ],
           ),
           BottomNavbar(
-            currentIndex: currentIndex,
-            onTap: (index) => NavigationHelper.navigateTo(index, context),
+            currentIndex: 4,
           ),
         ],
       ),

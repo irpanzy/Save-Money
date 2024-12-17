@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -13,28 +16,26 @@ class _IntroScreenState extends State<IntroScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2), () {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, '/input_name');
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.offNamed('/input_name');
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFFCCFF00),
+    return Scaffold(
+      backgroundColor: ColorStyle.primaryColor50,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'SaveMoney',
-              style: TextStyle(fontSize: 40, fontFamily: "Poppins_SemiBold"),
+              style: TypographyStyle.h1,
             ),
-            SizedBox(height: 8),
             Text(
               'Kelola keuangan anda',
-              style: TextStyle(fontSize: 12, fontFamily: "Poppins_Light"),
+              style: TypographyStyle.l2Regular,
             ),
           ],
         ),

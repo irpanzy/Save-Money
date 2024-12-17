@@ -11,7 +11,7 @@ class SaldoWidget extends StatefulWidget {
 }
 
 class _SaldoWidgetState extends State<SaldoWidget> {
-  bool _isNotified = false; 
+  bool _isNotified = false;
 
   @override
   Widget build(BuildContext context) {

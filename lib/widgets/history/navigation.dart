@@ -3,13 +3,8 @@ import 'package:project_apk_catatan_keuangan/widgets/history/option_filter.dart'
 import 'package:project_apk_catatan_keuangan/widgets/history/time_filter.dart';
 
 class Navigation extends StatelessWidget {
-  final String selectedFilter;
-  final ValueChanged<String> onFilterSelected;
-
   const Navigation({
     super.key,
-    required this.selectedFilter,
-    required this.onFilterSelected,
   });
 
   @override
@@ -19,15 +14,12 @@ class Navigation extends StatelessWidget {
     return SizedBox(
       width: size.width,
       child: Column(
-        children: [
-          const OptionFilter(),
-          const SizedBox( 
+        children: const [
+          OptionFilter(),
+          SizedBox(
             height: 8,
           ),
-          TimeFilter(
-            selectedFilter: selectedFilter,
-            onFilterSelected: onFilterSelected,
-          ),
+          TimeFilter(),
         ],
       ),
     );

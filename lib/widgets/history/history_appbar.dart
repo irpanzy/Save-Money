@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../../style/color_style.dart';
-import 'filter_row.dart';
+import 'navigation.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class HistoryAppBar extends StatelessWidget {
-  final String selectedFilter;
-  final ValueChanged<String> onFilterSelected;
-  final ValueChanged<String> onSearchChanged;
-
   const HistoryAppBar({
     super.key,
-    required this.selectedFilter,
-    required this.onFilterSelected,
-    required this.onSearchChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final HistoryController controller = Get.find<HistoryController>();
     return Container(
       decoration: BoxDecoration(color: ColorStyle.primaryColor50, boxShadow: [
         BoxShadow(
@@ -29,22 +25,21 @@ class HistoryAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32, bottom: 16),
       child: Column(
         children: [
-          buildSearchBar(),
+          buildSearchBar(controller),
           const SizedBox(
             height: 16,
           ),
-          Navigation(
-            selectedFilter: selectedFilter,
-            onFilterSelected: onFilterSelected,
-          ),
+          Navigation(),
         ],
       ),
     );
   }
 
-  Widget buildSearchBar() {
+  Widget buildSearchBar(HistoryController controller) {
     return TextField(
-      onChanged: onSearchChanged,
+      onChanged:   (value) {
+        controller.setSearchQuery(value); // Update searchQuery di controller
+      },
       decoration: InputDecoration(
         hintText: "Cari...",
         hintStyle: TypographyStyle.l1Regular,

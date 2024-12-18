@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../helpers/navigation_helper.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../widgets/bottom_navbar.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -19,81 +21,129 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFCCFF00),
-        elevation: 0,
-      ),
-      body: ListView(
+      backgroundColor: Colors.white,
+      body: Stack(
         children: [
-          Container(
-            color: const Color(0xFFCCFF00),
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              children: const [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage(
-                      'assets/images/ganesha.png'), // Ganti dengan path gambar Anda
+          ListView(
+            children: [
+              Container(
+                margin:
+                    EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 40),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                    color: ColorStyle.primaryColor50,
+                    borderRadius: BorderRadius.circular(16)),
+                child: Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage('assets/images/ganesha.png'),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Ganes Rahman',
+                      style: TypographyStyle.l1Bold,
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10),
-                Text(
-                  'Ganes Rahman',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Container(
+                  margin: EdgeInsets.only(left: 16, bottom: 8),
+                  child: Text("Settings", style: TypographyStyle.h4)),
+              ListTile(
+                leading: Icon(
+                  Symbols.brightness_low,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
                 ),
-              ],
-            ),
+                title: Text('Tema Gelap', style: TypographyStyle.l2Regular),
+                trailing: Switch(
+                  value: isDarkMode,
+                  onChanged: (value) {
+                    _showNotEditableDialog(context);
+                  },
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Symbols.language,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                title: Text('Bahasa', style: TypographyStyle.l2Regular),
+                trailing: Text(selectedLanguage),
+                onTap: () async {
+                  await showModalBottomSheet<String>(
+                    context: context,
+                    builder: (context) =>
+                        LanguageSelector(selectedLanguage: selectedLanguage),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Symbols.paid,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                title: Text('Mata Uang', style: TypographyStyle.l2Regular),
+                trailing: Text(selectedCurrency),
+                onTap: () async {
+                  await showModalBottomSheet<String>(
+                    context: context,
+                    builder: (context) =>
+                        CurrencySelector(selectedCurrency: selectedCurrency),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Symbols.star,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                title: Text('Beri Penilaian', style: TypographyStyle.l2Regular),
+                trailing: Icon(
+                  Symbols.arrow_forward_ios_rounded,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                onTap: null,
+              ),
+              ListTile(
+                leading: Icon(
+                  Symbols.call,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                title: Text('Bantuan', style: TypographyStyle.l2Regular),
+                trailing: Icon(
+                  Symbols.arrow_forward_ios_rounded,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                onTap: null,
+              ),
+              ListTile(
+                leading: Icon(
+                  Symbols.error,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                title: Text('Tentang', style: TypographyStyle.l2Regular),
+                trailing: Icon(
+                  Symbols.arrow_forward_ios_rounded,
+                  weight: 600,
+                  color: ColorStyle.iconActive,
+                ),
+                onTap: null,
+              ),
+            ],
           ),
-          ListTile(
-            title: const Text('Tema Gelap'),
-            trailing: Switch(
-              value: isDarkMode,
-              onChanged: (value) {
-                _showNotEditableDialog(context);
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('Bahasa'),
-            trailing: Text(selectedLanguage),
-            onTap: () async {
-              await showModalBottomSheet<String>(
-                context: context,
-                builder: (context) =>
-                    LanguageSelector(selectedLanguage: selectedLanguage),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Mata Uang'),
-            trailing: Text(selectedCurrency),
-            onTap: () async {
-              await showModalBottomSheet<String>(
-                context: context,
-                builder: (context) =>
-                    CurrencySelector(selectedCurrency: selectedCurrency),
-              );
-            },
-          ),
-          const ListTile(
-            title: Text('Beri Penilaian'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: null, // Navigasi ke halaman beri penilaian
-          ),
-          const ListTile(
-            title: Text('Bantuan'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: null, // Navigasi ke halaman bantuan
-          ),
-          const ListTile(
-            title: Text('Tentang'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: null, // Navigasi ke halaman tentang
+          BottomNavbar(
+            currentIndex: 4,
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavbar(
-        currentIndex: currentIndex,
-        onTap: (index) => NavigationHelper.navigateTo(index, context),
       ),
     );
   }

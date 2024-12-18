@@ -1,54 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import '../widgets/bottom_navbar.dart';
 import '../widgets/input/input_form_widget.dart';
 import '../widgets/input/toggle_income_expense_widget.dart';
-import '../helpers/navigation_helper.dart';
+import '../controller/input_controller.dart';
 
-class InputScreen extends StatefulWidget {
+class InputScreen extends StatelessWidget {
   const InputScreen({super.key});
 
   @override
-  State<InputScreen> createState() => _InputScreenState();
-}
-
-class _InputScreenState extends State<InputScreen> {
-  int _currentIndex = 2;
-  bool isIncome = true;
-
-  void _onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-    NavigationHelper.navigateTo(index, context);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final InputController controller = Get.put(InputController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Buat Transaksi',
-          style: TextStyle(
-              fontFamily: "Poppins_SemiBold",
-              fontSize: 18,
-              color: Colors.black),
-        ),
+        title: Text('Buat Transaksi', style: TypographyStyle.h4),
         backgroundColor: Colors.white,
-        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Symbols.arrow_back_rounded,
+              weight: 600, color: Colors.black),
+          onPressed: () => Get.toNamed('/home'),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 25.0),
+            padding: const EdgeInsets.only(right: 8),
             child: IconButton(
               icon: Icon(Symbols.delete, color: ColorStyle.secondaryColor50),
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/history');
+              },
             ),
           ),
         ],
@@ -61,35 +44,30 @@ class _InputScreenState extends State<InputScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ToggleIncomeExpenseWidget(
-                    isIncome: isIncome,
-                    onToggle: (value) {
-                      setState(() {
-                        isIncome = value;
-                      });
-                    }),
-                const SizedBox(height: 35),
-                InputFormWidget(isIncome: isIncome),
-                const SizedBox(height: 35),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isIncome
-                          ? ColorStyle.primaryColor60
-                          : ColorStyle.secondaryColor50,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                ToggleIncomeExpenseWidget(),
+                const SizedBox(height: 32),
+                Obx(() => InputFormWidget(isIncome: controller.isIncome.value)),
+                const SizedBox(height: 24),
+                Obx(() => Center(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: controller.isIncome.value
+                              ? ColorStyle.primaryColor60
+                              : ColorStyle.secondaryColor50,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          'Simpan',
+                          style:
+                              TypographyStyle.h4.copyWith(color: Colors.white),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'Simpan',
-                      style: TypographyStyle.h4.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
+                    )),
               ],
             ),
           ),

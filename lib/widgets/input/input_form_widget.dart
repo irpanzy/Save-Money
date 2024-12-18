@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../../style/color_style.dart';
 
 class InputFormWidget extends StatefulWidget {
   final bool isIncome;
 
-  InputFormWidget({Key? key, required this.isIncome}) : super(key: key);
+  const InputFormWidget({super.key, required this.isIncome});
 
   @override
+  // ignore: library_private_types_in_public_api
   _InputFormWidgetState createState() => _InputFormWidgetState();
 }
 
@@ -16,7 +19,14 @@ class _InputFormWidgetState extends State<InputFormWidget> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  final List<String> _categories = ['Gaji', 'Makanan', 'Transportasi', 'Belanja', 'Pendidikan', 'Lainnya'];
+  final List<String> _categories = [
+    'Gaji',
+    'Makanan',
+    'Transportasi',
+    'Belanja',
+    'Pendidikan',
+    'Lainnya'
+  ];
   String? _selectedCategory;
 
   @override
@@ -27,25 +37,17 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           controller: _dateController,
           readOnly: true,
           onTap: () => _selectDate(context),
-          style: const TextStyle(
-            fontFamily: "Poppins_Regular",
-            fontSize: 14,
-            color: ColorStyle.primaryTextBlack,
-          ),
+          style: TypographyStyle.l2Regular,
           decoration: InputDecoration(
             labelText: 'Tanggal',
-            labelStyle: const TextStyle(
-              fontFamily: "Poppins_Regular",
-              fontSize: 14,
-              color: ColorStyle.primaryTextBlack,
-            ),
+            labelStyle: TypographyStyle.l2Regular,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.grey),
+              borderRadius: BorderRadius.circular(6),
+              borderSide: const BorderSide(color: ColorStyle.grey),
             ),
           ),
         ),
-        const SizedBox(height: 35),
+        const SizedBox(height: 24),
         DropdownButtonFormField2<String>(
           value: _selectedCategory,
           items: _categories.map((String category) {
@@ -55,11 +57,7 @@ class _InputFormWidgetState extends State<InputFormWidget> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   category,
-                  style: const TextStyle(
-                    fontFamily: "Poppins_Regular",
-                    fontSize: 14,
-                    color: ColorStyle.primaryTextBlack,
-                  ),
+                  style: TypographyStyle.l2Regular,
                 ),
               ),
             );
@@ -71,70 +69,51 @@ class _InputFormWidgetState extends State<InputFormWidget> {
           },
           iconStyleData: const IconStyleData(
             icon: Icon(
-              Icons.arrow_drop_down,
+              Symbols.arrow_drop_down,
+              weight: 600,
               color: ColorStyle.primaryTextBlack,
             ),
             iconSize: 25,
           ),
           dropdownStyleData: DropdownStyleData(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
               border: Border.all(color: ColorStyle.primaryTextBlack),
             ),
             maxHeight: 200,
           ),
           decoration: InputDecoration(
             labelText: 'Kategori',
-            labelStyle: const TextStyle(
-              fontFamily: "Poppins_Regular",
-              fontSize: 14,
-              color: ColorStyle.primaryTextBlack,
-            ),
+            labelStyle: TypographyStyle.l2Regular,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: ColorStyle.grey),
             ),
           ),
         ),
-        const SizedBox(height: 35),
+        const SizedBox(height: 24),
         TextField(
           controller: _amountController,
           keyboardType: TextInputType.number,
-          style: const TextStyle(
-            fontFamily: "Poppins_Regular",
-            fontSize: 14,
-            color: ColorStyle.primaryTextBlack,
-          ),
+          style: TypographyStyle.l2Regular,
           decoration: InputDecoration(
             labelText: 'Jumlah',
             prefixText: 'Rp. ',
-            labelStyle: const TextStyle(
-              fontFamily: "Poppins_Regular",
-              fontSize: 14,
-              color: ColorStyle.primaryTextBlack,
-            ),
+            labelStyle: TypographyStyle.l2Regular,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
         ),
-        const SizedBox(height: 35),
+        const SizedBox(height: 24),
         TextField(
           controller: _noteController,
-          style: const TextStyle(
-            fontFamily: "Poppins_Regular",
-            fontSize: 14,
-            color: ColorStyle.primaryTextBlack,
-          ),
+          style: TypographyStyle.l2Regular,
           decoration: InputDecoration(
             labelText: 'Keterangan',
-            labelStyle: const TextStyle(
-              fontFamily: "Poppins_Regular",
-              fontSize: 14,
-              color: ColorStyle.primaryTextBlack,
-            ),
+            labelStyle: TypographyStyle.l2Regular,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
         ),

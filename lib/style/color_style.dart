@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColorStyle {
   static Color primaryColor50 = const Color(0xFFCCFF00);
   static Color primaryColor60 = const Color(0xFFB2E600);
-  static Color primaryColor80 = const Color(0xFF455C0B);
+  static Color primaryColor80 = const Color(0xFF455C0B);  
 
   static Color secondaryColor50 = const Color(0xFFE60000);
   static Color secondaryColor80 = const Color(0xFF7D0000);
@@ -19,6 +19,8 @@ class ColorStyle {
   static const borderBlackActive = Color(0xCC000000);
   static const borderBlack = Color(0x33000000);
   static const borderBlackLow = Color.fromRGBO(0, 0, 0, 0.050);
+  static const grey = Color.fromARGB(255, 158, 158, 158);
+  static const Shadow = Color.fromRGBO(0, 0, 0, 0.06);
 
   // Icon Colors
   static const iconActive = Color(0xE3000000);

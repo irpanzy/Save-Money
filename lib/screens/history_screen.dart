@@ -1,66 +1,88 @@
 import 'package:flutter/material.dart';
-import '../helpers/navigation_helper.dart';
-import '../helpers/filter_helper.dart';
-import '../widgets/history/filter_widget.dart';
-import '../widgets/history/list_input_widget.dart';
+import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/history_appbar.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/day_column.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/mounth_column.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/summary.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/week_column.dart';
+import 'package:project_apk_catatan_keuangan/widgets/history/year_column.dart';
 import '../widgets/bottom_navbar.dart';
-import '../main.dart';
 
-class HistoryScreen extends StatefulWidget {
+class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
-}
-
-class _HistoryScreenState extends State<HistoryScreen> {
-  int _currentIndex = 1;
-  String _selectedFilter = "Hari";
-  String _searchQuery = "";
-
-  void _onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-    NavigationHelper.navigateTo(index, context);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // Filtered pencarian
-    final filteredTransactions = FilterHelper.filterTransactions(
-      globalTransactions,
-      _selectedFilter,
-      _searchQuery,
-    );
-
+    final HistoryController controller = Get.put(HistoryController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(200.0),
-        child: HistoryAppBar(
-          selectedFilter: _selectedFilter,
-          onFilterSelected: (filter) {
-            setState(() {
-              _selectedFilter = filter;
-            });
-          },
-          onSearchChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-        ),
+      body: Stack(
+        children: [
+          ListView(children: [
+            Column(
+              children: [
+                HistoryAppBar(),
+                const SizedBox(height: 24),
+                const SummaryCashflow(),
+                const SizedBox(height: 32),
+                Obx(() {
+                  switch (controller.selectedFilter.value) {
+                    case "Hari":
+                      return Column(
+                        children: const [
+                          DayColumn(),
+                          DayColumn(),
+                          DayColumn(),
+                          DayColumn(),
+                        ],
+                      );
+                    case "Minggu":
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: const [
+                            WeekColumn(),
+                            WeekColumn(),
+                            WeekColumn(),
+                          ],
+                        ),
+                      );
+                    case "Bulan":
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: const [
+                            MounthColumn(),
+                            MounthColumn(),
+                            MounthColumn(),
+                          ],
+                        ),
+                      );
+                    case "Tahun":
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: const [
+                            YearColumn(),
+                            YearColumn(),
+                            YearColumn(),
+                          ],
+                        ),
+                      );
+                    default:
+                      return const SizedBox();
+                  }
+                }),
+                const SizedBox(height: 64)
+              ],
+            ),
+          ]),
+          BottomNavbar(
+            currentIndex: 1,
+          ),
+        ],
       ),
-      body: Stack(children: [
-        ListView(children: [
-          HistoryTransactionList(transactions: filteredTransactions)
-        ]),
-        BottomNavbar(
-          currentIndex: _currentIndex,
-          onTap: _onTap,
-        )
-      ]),
     );
   }
 }

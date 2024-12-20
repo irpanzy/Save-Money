@@ -20,10 +20,10 @@ class FilterHelper {
       }).toList();
     } else if (filter == "Minggu") {
       DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-      DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
+      DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
       filtered = filtered.where((tx) {
-        return tx["date"].isAfter(startOfWeek.subtract(Duration(days: 1))) &&
-            tx["date"].isBefore(endOfWeek.add(Duration(days: 1)));
+        return tx["date"].isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
+            tx["date"].isBefore(endOfWeek.add(const Duration(days: 1)));
       }).toList();
     } else if (filter == "Bulan") {
       filtered = filtered.where((tx) {

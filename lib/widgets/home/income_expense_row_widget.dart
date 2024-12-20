@@ -4,6 +4,8 @@ import 'income_expense_box_widget.dart';
 import '../../style/color_style.dart';
 
 class IncomeExpenseRowWidget extends StatelessWidget {
+  const IncomeExpenseRowWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final dataList = [
@@ -21,26 +23,14 @@ class IncomeExpenseRowWidget extends StatelessWidget {
       ),
     ];
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Recap bulan ini',
-          style: TextStyle(
-            fontSize: 18,
-            fontFamily: "Poppins_Bold",
-          ),
-        ),
-        SizedBox(height: 15), 
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: dataList
-              .map((data) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: IncomeExpenseBoxWidget(data),
-                    ),
-                  ))
-              .toList(),
+          children: [
+            Expanded(child: IncomeExpenseBoxWidget(dataList[0])),
+            const SizedBox(width: 16),
+            Expanded(child: IncomeExpenseBoxWidget(dataList[1])),
+          ],
         ),
       ],
     );

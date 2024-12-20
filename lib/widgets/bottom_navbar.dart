@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:get/get.dart';
 
 class BottomNavbar extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
 
-  BottomNavbar({required this.currentIndex, required this.onTap});
+  const BottomNavbar({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 16, 
+      bottom: 16,
       left: 16,
       right: 16,
       child: Container(
@@ -20,8 +20,8 @@ class BottomNavbar extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: ColorStyle.borderBlackLow, // Warna border
-            width: 1, // Lebar border
+            color: ColorStyle.borderBlackLow,
+            width: 1,
           ),
           boxShadow: [
             BoxShadow(
@@ -34,6 +34,7 @@ class BottomNavbar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // Ikon Home
             IconButton(
               icon: Icon(
                 Symbols.home_rounded,
@@ -42,8 +43,13 @@ class BottomNavbar extends StatelessWidget {
                     ? ColorStyle.iconActive
                     : ColorStyle.iconNotActive,
               ),
-              onPressed: () => onTap(0),
+              onPressed: () {
+                if (currentIndex != 0) {
+                  Get.offNamed('/home');
+                }
+              },
             ),
+            // Ikon History
             IconButton(
               icon: Icon(
                 Symbols.history_rounded,
@@ -52,13 +58,20 @@ class BottomNavbar extends StatelessWidget {
                     ? ColorStyle.iconActive
                     : ColorStyle.iconNotActive,
               ),
-              onPressed: () => onTap(1),
+              onPressed: () {
+                if (currentIndex != 1) {
+                  Get.offNamed('/history');
+                }
+              },
             ),
+            // Tombol Input
             Container(
               width: 50,
               height: 55,
               decoration: BoxDecoration(
-                color: ColorStyle.primaryColor60,
+                color: currentIndex == 2
+                    ? ColorStyle.primaryColor60
+                    : ColorStyle.primaryColor50,
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -69,10 +82,15 @@ class BottomNavbar extends StatelessWidget {
                     size: 20,
                     weight: 600,
                   ),
-                  onPressed: () => onTap(2),
+                  onPressed: () {
+                    if (currentIndex != 2) {
+                      Get.toNamed('/input');
+                    }
+                  },
                 ),
               ),
             ),
+            // Ikon Statistik
             IconButton(
               icon: Icon(
                 Symbols.category_rounded,
@@ -81,8 +99,13 @@ class BottomNavbar extends StatelessWidget {
                     ? ColorStyle.iconActive
                     : ColorStyle.iconNotActive,
               ),
-              onPressed: () => onTap(3),
+              onPressed: () {
+                if (currentIndex != 3) {
+                  Get.offNamed('/statistik');
+                }
+              },
             ),
+            // Ikon Settings
             IconButton(
               icon: Icon(
                 Symbols.settings,
@@ -91,7 +114,11 @@ class BottomNavbar extends StatelessWidget {
                     ? ColorStyle.iconActive
                     : ColorStyle.iconNotActive,
               ),
-              onPressed: () => onTap(4),
+              onPressed: () {
+                if (currentIndex != 4) {
+                  Get.offNamed('/settings');
+                }
+              },
             ),
           ],
         ),

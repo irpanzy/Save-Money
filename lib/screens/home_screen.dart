@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
-import '../helpers/navigation_helper.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/home/largest_expense_widget.dart';
 import '../widgets/home/saldo_widget.dart';
 import '../widgets/home/recap_widget.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-
-  void _onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-    NavigationHelper.navigateTo(index, context);
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +14,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           ListView(children: [
-            SaldoWidget(),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            SizedBox(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
-                  LargestExpenseWidget(),
-                  const SizedBox(height: 75),
+                  const SaldoWidget(),
+                  const SizedBox(height: 24),
+                  const LargestExpenseWidget(),
+                  const SizedBox(height: 48),
                   RecapWidget(),
                   const SizedBox(height: 75),
                 ],
@@ -43,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ]),
           BottomNavbar(
-            currentIndex: _currentIndex,
-            onTap: _onTap,
+            currentIndex: 0,
           ),
         ],
       ),
     );
   }
 }
+

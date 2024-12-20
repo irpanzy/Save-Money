@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_apk_catatan_keuangan/screens/sub_category_screen.dart';
+import 'package:get/get.dart';
 import 'screens/settings_screen.dart';
 import 'screens/statistik_screen.dart';
 import 'screens/input_screen.dart';
@@ -9,32 +9,29 @@ import 'screens/input_name_screen.dart';
 import 'screens/intro_screen.dart';
 
 void main() {
-  runApp(SaveMoneyApp());
+  runApp(const SaveMoneyApp());
 }
 
-// Global state untuk menyimpan transaksi
 List<Map<String, dynamic>> globalTransactions = [];
 
 class SaveMoneyApp extends StatelessWidget {
+  const SaveMoneyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SaveMoney',
-      theme: ThemeData(
-        primarySwatch: Colors.lime,
-      ),
+      title: 'Save Money',
       initialRoute: '/',
-      routes: {
-        '/': (context) => IntroScreen(),
-        '/input_name': (context) => InputNameScreen(),
-        '/home': (context) => HomeScreen(),
-        '/history': (context) => HistoryScreen(),
-        '/input': (context) => InputScreen(),
-        '/statistik': (context) => StatistikScreen(),
-        '/settings': (context) => SettingsScreen(),
-        '/subcategory' : (context) => SubCategoryScreen(),
-      },
+      getPages: [
+        GetPage(name: '/', page: () => const IntroScreen()),
+        GetPage(name: '/input_name', page: () => InputNameScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/history', page: () => const HistoryScreen()),
+        GetPage(name: '/input', page: () => const InputScreen()),
+        GetPage(name: '/statistik', page: () => const StatistikScreen()),
+        GetPage(name: '/settings', page: () => SettingsScreen()),
+      ],
     );
   }
 }

@@ -1,4 +1,3 @@
-
 # Project Aplikasi Catatan Keuangan
 
 ## Anggota Kelompok
@@ -36,6 +35,7 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 3. **Yogi Hafidh Maulana**  
    - Statistik Screen
    - Design System
+   - Config Database
 4. **Ganesha R. Gibran**
    - Sub Category Screen
 5. **Satria Ariq A. D.**
@@ -72,6 +72,14 @@ Proyek ini adalah titik awal untuk aplikasi Flutter.
    ```bash
    flutter run
    ```
+
+## Package yang Digunakan
+- `syncfusion_flutter_charts: ^27.1.58`
+- `cupertino_icons: ^1.0.8`
+- `intl: ^0.19.0`
+- `material_symbols_icons: ^4.2800.2`
+- `dropdown_button2: ^2.3.9`
+- `get: ^4.6.6`
 
 ## Sumber Daya Tambahan
 - [Flutter Documentation](https://flutter.dev/docs): Dokumentasi resmi Flutter.

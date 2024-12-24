@@ -173,7 +173,7 @@ class SettingsScreen extends StatelessWidget {
 class LanguageSelector extends StatelessWidget {
   final String selectedLanguage;
 
-  const LanguageSelector({required this.selectedLanguage});
+  const LanguageSelector({super.key, required this.selectedLanguage});
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +199,7 @@ class LanguageSelector extends StatelessWidget {
 class CurrencySelector extends StatelessWidget {
   final String selectedCurrency;
 
-  const CurrencySelector({required this.selectedCurrency});
+  const CurrencySelector({super.key, required this.selectedCurrency});
 
   @override
   Widget build(BuildContext context) {

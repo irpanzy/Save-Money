@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/controller/setting_controller.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../../style/color_style.dart';
 
-class SaldoWidget extends StatefulWidget {
+class SaldoWidget extends StatelessWidget {
   const SaldoWidget({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SaldoWidgetState createState() => _SaldoWidgetState();
-}
-
-class _SaldoWidgetState extends State<SaldoWidget> {
-  bool _isNotified = false;
-
-  @override
   Widget build(BuildContext context) {
+    final SettingsController settingsController = Get.put(SettingsController());
+    settingsController.fetchUserName();
+    final HomescreenController homescreenController =
+        Get.put(HomescreenController());
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [ColorStyle.primaryColor50, ColorStyle.primaryColor60],
+            colors: [ColorStyle.primaryColor50, ColorStyle.primaryColor50],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -33,29 +35,24 @@ class _SaldoWidgetState extends State<SaldoWidget> {
             Row(
               children: [
                 const SizedBox(width: 10),
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/ganesha.png'),
-                  radius: 24,
-                ),
-                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Hallo!', style: TypographyStyle.l3Regular),
-                    Text('Ganesha Rahman', style: TypographyStyle.l1Bold),
+                    Obx(() => Text(
+                          settingsController.userName.value,
+                          style: TypographyStyle.h4,
+                        )),
                   ],
                 ),
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _isNotified = !_isNotified;
-                    });
+                    settingsController.fetchUserName();
                   },
                   child: Icon(
-                    _isNotified
-                        ? Icons.notifications
-                        : Icons.notifications_none,
+                    Symbols.notifications,
+                    weight: 600,
                     color: ColorStyle.iconActive,
                   ),
                 ),
@@ -68,9 +65,10 @@ class _SaldoWidgetState extends State<SaldoWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text('Saldo anda', style: TypographyStyle.l2Regular),
-                  Text('150.000 IDR',
+                  Obx(() => Text(
+                      "${CurrencySaldoHelper.formatRupiah(homescreenController.saldo.value)} IDR",
                       style: TypographyStyle.h1
-                          .copyWith(fontSize: 40, fontFamily: "Poppins_bold")),
+                          .copyWith(fontSize: 40, fontFamily: "Poppins_bold"))),
                 ],
               ),
             ),

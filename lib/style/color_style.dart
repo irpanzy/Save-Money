@@ -20,6 +20,7 @@ class ColorStyle {
   static const borderBlack = Color(0x33000000);
   static const borderBlackLow = Color.fromRGBO(0, 0, 0, 0.050);
   static const grey = Color.fromARGB(255, 158, 158, 158);
+  // ignore: constant_identifier_names
   static const Shadow = Color.fromRGBO(0, 0, 0, 0.06);
 
   // Icon Colors

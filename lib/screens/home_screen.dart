@@ -13,16 +13,16 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          ListView(children: [
+          ListView(children: const [
             SizedBox(
               child: Column(
                 children: [
-                  const SaldoWidget(),
-                  const SizedBox(height: 24),
-                  const LargestExpenseWidget(),
-                  const SizedBox(height: 48),
+                  SaldoWidget(),
+                  SizedBox(height: 24),
+                  LargestExpenseWidget(),
+                  SizedBox(height: 48),
                   RecapWidget(),
-                  const SizedBox(height: 75),
+                  SizedBox(height: 75),
                 ],
               ),
             ),
@@ -35,4 +35,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

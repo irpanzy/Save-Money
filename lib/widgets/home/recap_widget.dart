@@ -4,6 +4,8 @@ import 'income_expense_row_widget.dart';
 import 'doughnut_chart_widget.dart';
 
 class RecapWidget extends StatelessWidget {
+  const RecapWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

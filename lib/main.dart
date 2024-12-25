@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
 import 'screens/settings_screen.dart';
 import 'screens/statistik_screen.dart';
 import 'screens/input_screen.dart';
@@ -12,14 +13,15 @@ void main() {
   runApp(const SaveMoneyApp());
 }
 
-List<Map<String, dynamic>> globalTransactions = [];
-
 class SaveMoneyApp extends StatelessWidget {
   const SaveMoneyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: BindingsBuilder(() {
+        Get.put(HomescreenController()); 
+      }),
       debugShowCheckedModeBanner: false,
       title: 'Save Money',
       initialRoute: '/',

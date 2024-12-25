@@ -12,8 +12,8 @@ class CategoryCard extends StatefulWidget {
   const CategoryCard(
       {super.key,
       required this.title,
-      required this.amount,
-      required this.percentage});
+      this.amount = "0",
+      this.percentage = 0});
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();

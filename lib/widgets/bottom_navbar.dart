@@ -69,9 +69,7 @@ class BottomNavbar extends StatelessWidget {
               width: 50,
               height: 55,
               decoration: BoxDecoration(
-                color: currentIndex == 2
-                    ? ColorStyle.primaryColor60
-                    : ColorStyle.primaryColor50,
+                color: ColorStyle.primaryColor50,
                 shape: BoxShape.circle,
               ),
               child: Center(

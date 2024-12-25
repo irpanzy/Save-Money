@@ -46,11 +46,14 @@ class InputScreen extends StatelessWidget {
               children: [
                 ToggleIncomeExpenseWidget(),
                 const SizedBox(height: 32),
-                Obx(() => InputFormWidget(isIncome: controller.isIncome.value)),
+                InputFormWidget(),
                 const SizedBox(height: 24),
                 Obx(() => Center(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.saveTransaction();
+                          
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: controller.isIncome.value
                               ? ColorStyle.primaryColor60

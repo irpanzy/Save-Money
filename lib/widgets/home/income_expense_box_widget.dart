@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../models/home/income_expense_data_model.dart';
 import '../../style/color_style.dart';
 
 class IncomeExpenseBoxWidget extends StatelessWidget {
-  final IncomeExpenseDataModel data;
-
-  const IncomeExpenseBoxWidget(this.data, {super.key});
+  const IncomeExpenseBoxWidget(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.amount,
+      required this.color});
+  final IconData icon;
+  final String title;
+  final String amount;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +34,17 @@ class IncomeExpenseBoxWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: data.color,
+              color: color,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
-              data.icon,
+              icon,
               color: ColorStyle.primaryTextWhite,
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            data.title,
+            title,
             style: const TextStyle(
               fontSize: 12,
               fontFamily: "Poppins_SemiBold",
@@ -46,7 +52,7 @@ class IncomeExpenseBoxWidget extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            data.amount,
+            "$amount IDR",
             style: const TextStyle(
               fontSize: 20,
               color: ColorStyle.primaryTextBlack,

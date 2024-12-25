@@ -12,32 +12,39 @@ class ExpenseItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(category, style: TypographyStyle.p2Regular),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Text(description, style: TypographyStyle.p2Regular),
-                ),
-              ],
+    return Table(
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(3),
+        2: FlexColumnWidth(2),
+      },
+      children: [
+        TableRow(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(category, style: TypographyStyle.p2Regular),
             ),
-          ),
-          const SizedBox(width: 10),
-          Text(amount,
-              style: TypographyStyle.p2Regular
-                  .copyWith(color: ColorStyle.expenditureColor)),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Text(description, style: TypographyStyle.p2Regular)),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  amount,
+                  style: TypographyStyle.p2Regular
+                      .copyWith(color: ColorStyle.expenditureColor),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

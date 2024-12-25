@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/home/income_expense_data_model.dart';
+import 'package:get/get.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'income_expense_box_widget.dart';
 import '../../style/color_style.dart';
 
@@ -8,31 +11,33 @@ class IncomeExpenseRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataList = [
-      IncomeExpenseDataModel(
-        icon: Icons.arrow_outward,
-        title: 'Pemasukan',
-        amount: '2.000 IDR',
-        color: ColorStyle.incomeColorHome,
-      ),
-      IncomeExpenseDataModel(
-        icon: Icons.call_received,
-        title: 'Pengeluaran',
-        amount: '10.000 IDR',
-        color: ColorStyle.expenditureColorHome,
-      ),
-    ];
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final HomescreenController controller = Get.put(HomescreenController());
+
+    return Obx(() => Column(
           children: [
-            Expanded(child: IncomeExpenseBoxWidget(dataList[0])),
-            const SizedBox(width: 16),
-            Expanded(child: IncomeExpenseBoxWidget(dataList[1])),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: IncomeExpenseBoxWidget(
+                  icon: Symbols.arrow_outward,
+                  title: "Pemasukan",
+                  amount:
+                      CurrencySaldoHelper.formatRupiah(controller.income.value),
+                  color: ColorStyle.primaryColor50,
+                )),
+                const SizedBox(width: 16),
+                Expanded(
+                    child: IncomeExpenseBoxWidget(
+                  icon: Symbols.call_received,
+                  title: "Pengeluaran",
+                  amount: CurrencySaldoHelper.formatRupiah(
+                      controller.expense.value),
+                  color: ColorStyle.secondaryColor50,
+                )),
+              ],
+            ),
           ],
-        ),
-      ],
-    );
+        ));
   }
 }

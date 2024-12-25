@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/setting_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class InputNameScreen extends StatelessWidget {
   InputNameScreen({super.key});
   final TextEditingController _nameController = TextEditingController();
+  final SettingsController _settingsController = Get.put(SettingsController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +45,8 @@ class InputNameScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onSubmitted: (value) {
-                  if (value.isNotEmpty) {
-                    Get.toNamed('/home');
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Nama tidak boleh kosong!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  }
-                },
-                textInputAction:
-                    TextInputAction.done, // Tombol Enter di keyboard
+                onSubmitted: (value) => _settingsController.saveName(value),
+                textInputAction: TextInputAction.done,
               ),
             ),
           ],

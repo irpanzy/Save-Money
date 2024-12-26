@@ -1,6 +1,7 @@
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/setting_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
+import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
@@ -64,9 +65,43 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE Settings (
         nama TEXT PRIMARY KEY
-      
-)
+      )
     ''');
+  }
+
+  Future<List<String>> getAvailableMonths() async {
+    final db = await database;
+
+    final result = await db.rawQuery('''
+    SELECT DISTINCT strftime('%m', date) AS month, strftime('%Y', date) AS year
+    FROM Transactions
+    WHERE date IS NOT NULL
+    ORDER BY year DESC, month DESC
+  ''');
+
+    const List<String> months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    List<String> monthsWithYearList = result.map((row) {
+      final monthNumber = int.parse((row['month'] ?? '1').toString());
+      final year = row['year'] ?? '';
+      final monthName = months[monthNumber - 1];
+      return '$monthName $year';
+    }).toList();
+
+    return monthsWithYearList;
   }
 
   Future<double> getTotalIncome() async {

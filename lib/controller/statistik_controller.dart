@@ -7,6 +7,9 @@ class StatistikController extends GetxController {
   var isIncomeSelected = true.obs;
   var categoriesList = <CategoryModel>[].obs;
   var transactions = <TransactionModel>[].obs;
+  var availableMonths = <String>[].obs;
+  var selectedMonth = ''.obs;
+  final DatabaseHelper dbHelper = DatabaseHelper();
 
   final DatabaseHelper _dbHelper = DatabaseHelper();
   void setIsIncomeSelected(bool value) {
@@ -18,6 +21,24 @@ class StatistikController extends GetxController {
     super.onInit();
     fetchCategories();
     fetchTransactions();
+    fetchAvailableMonths();
+  }
+
+  Future<void> fetchAvailableMonths() async {
+    try {
+      final months = await dbHelper.getAvailableMonths();
+      availableMonths.assignAll(months);
+
+      if (selectedMonth.value.isEmpty && months.isNotEmpty) {
+        selectedMonth.value = months.first;
+      }
+    } catch (e) {
+      print('Error fetching available months: $e');
+    }
+  }
+
+  void setSelectedMonth(String month) {
+    selectedMonth.value = month;
   }
 
   Future<void> fetchTransactions() async {
@@ -46,7 +67,7 @@ class StatistikController extends GetxController {
 
     for (var transaction in transactions) {
       if (transaction.categoryType != categoryType) {
-        continue; 
+        continue;
       }
 
       final category = transaction.categoryTitle ?? "Unknown";
@@ -70,6 +91,4 @@ class StatistikController extends GetxController {
 
     return categoryStats;
   }
-
-
 }

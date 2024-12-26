@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/controller/statistik_controller.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
@@ -103,10 +104,14 @@ class InputController extends GetxController {
       final HomescreenController homeController =
           Get.find<HomescreenController>();
 
+      final StatistikController statisticController =
+          Get.find<StatistikController>();
+
       homeController.fetchLargestExpenses();
       homeController.calculateSaldo();
       homeController.calculateIncomeMounth();
       homeController.calculateExpenseMount();
+      await statisticController.fetchAvailableMonths();
 
       final HistoryController historyController = Get.find<HistoryController>();
       await historyController.loadAllTransactions();

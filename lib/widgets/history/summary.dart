@@ -26,17 +26,17 @@ class SummaryCashflow extends StatelessWidget {
         children: [
           SummaryColumn(
             label: "Pemasukan",
-            amount: CurrencySaldoHelper.formatRupiah(controller.income.value),
+            amount: CurrencyHelper.formatSaldoRupiah(controller.income.value),
             amountColor: ColorStyle.incomeColor,
           ),
           SummaryColumn(
             label: "Pengeluaran",
-            amount: CurrencySaldoHelper.formatRupiah(controller.expense.value),
+            amount: CurrencyHelper.formatSaldoRupiah(controller.expense.value),
             amountColor: ColorStyle.expenditureColor,
           ),
           SummaryColumn(
             label: "Saldo",
-            amount: CurrencySaldoHelper.formatRupiah(controller.saldo.value),
+            amount: CurrencyHelper.formatSaldoRupiah(controller.saldo.value),
             amountColor: ColorStyle.primaryTextBlack,
           ),
         ],

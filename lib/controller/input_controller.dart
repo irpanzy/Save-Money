@@ -21,7 +21,6 @@ class InputController extends GetxController {
   }
 
   final dbHelper = DatabaseHelper();
-
   var isIncome = true.obs;
 
   final dateController = TextEditingController();

@@ -23,7 +23,7 @@ class IncomeExpenseRowWidget extends StatelessWidget {
                   icon: Symbols.arrow_outward,
                   title: "Pemasukan",
                   amount:
-                      CurrencySaldoHelper.formatRupiah(controller.income.value),
+                      CurrencyHelper.formatSaldoRupiah(controller.income.value),
                   color: ColorStyle.primaryColor50,
                 )),
                 const SizedBox(width: 16),
@@ -31,7 +31,7 @@ class IncomeExpenseRowWidget extends StatelessWidget {
                     child: IncomeExpenseBoxWidget(
                   icon: Symbols.call_received,
                   title: "Pengeluaran",
-                  amount: CurrencySaldoHelper.formatRupiah(
+                  amount: CurrencyHelper.formatSaldoRupiah(
                       controller.expense.value),
                   color: ColorStyle.secondaryColor50,
                 )),

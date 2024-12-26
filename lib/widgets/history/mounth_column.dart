@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class MounthColumn extends StatelessWidget {
-  const MounthColumn({super.key});
+  final String monthName;
+  final double income;
+  final double expense;
+
+  const MounthColumn({
+    super.key,
+    required this.monthName,
+    required this.income,
+    required this.expense,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +37,15 @@ class MounthColumn extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              "Januari",
+              monthName,
               style: TypographyStyle.l2Bold,
             ),
           ),
-          Text("Rp50.000",
+          Text(CurrencyHelper.formatRupiah(income),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.incomeColor,
               )),
-          Text("Rp90.000",
+          Text(CurrencyHelper.formatRupiah(expense),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.expenditureColor,
               ))

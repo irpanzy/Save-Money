@@ -29,45 +29,98 @@ class HistoryScreen extends StatelessWidget {
                 Obx(() {
                   switch (controller.selectedFilter.value) {
                     case "Hari":
+                      final groupedTransactions =
+                          controller.groupTransactionsByDay();
+
+                      if (groupedTransactions.isEmpty) {
+                        return const Center(
+                          child: Text("Tidak ada transaksi."),
+                        );
+                      }
+
                       return Column(
-                        children: const [
-                          DayColumn(),
-                          DayColumn(),
-                          DayColumn(),
-                          DayColumn(),
-                        ],
+                        children: groupedTransactions.entries.map((entry) {
+                          return DayColumn(
+                            date: entry.key,
+                            transactions: entry.value,
+                          );
+                        }).toList(),
                       );
                     case "Minggu":
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: const [
-                            WeekColumn(),
-                            WeekColumn(),
-                            WeekColumn(),
-                          ],
-                        ),
+                      final weeklyTransactions =
+                          controller.groupTransactionsByWeek();
+
+                      if (weeklyTransactions.isEmpty) {
+                        return const Center(
+                          child: Text("Tidak ada transaksi."),
+                        );
+                      }
+
+                      return Column(
+                        children: weeklyTransactions.entries.map((entry) {
+                          final weekNumber = entry.key;
+                          final summary = entry.value;
+
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: WeekColumn(
+                              weekNumber: weekNumber,
+                              dateRange: summary['dateRange'] ?? '',
+                              income: summary['income'] ?? 0.0,
+                              expense: summary['expense'] ?? 0.0,
+                            ),
+                          );
+                        }).toList(),
                       );
+
                     case "Bulan":
+                      final monthlyTransactions =
+                          controller.groupTransactionsByMonth();
+
+                      if (monthlyTransactions.isEmpty) {
+                        return const Center(
+                          child: Text("Tidak ada transaksi."),
+                        );
+                      }
+
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
-                          children: const [
-                            MounthColumn(),
-                            MounthColumn(),
-                            MounthColumn(),
-                          ],
+                          children: monthlyTransactions.entries.map((entry) {
+                            final monthName = entry.key;
+                            final summary = entry.value;
+
+                            return MounthColumn(
+                              monthName: monthName,
+                              income: summary['income'] ?? 0.0,
+                              expense: summary['expense'] ?? 0.0,
+                            );
+                          }).toList(),
                         ),
                       );
                     case "Tahun":
+                      final yearlyTransactions =
+                          controller.groupTransactionsByYear();
+
+                      if (yearlyTransactions.isEmpty) {
+                        return const Center(
+                          child: Text("Tidak ada transaksi."),
+                        );
+                      }
+
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
-                          children: const [
-                            YearColumn(),
-                            YearColumn(),
-                            YearColumn(),
-                          ],
+                          children: yearlyTransactions.entries.map((entry) {
+                            final year = entry.key; // Tahun
+                            final summary = entry.value;
+
+                            return YearColumn(
+                              year: year,
+                              income: summary['income'] ?? 0.0,
+                              expense: summary['expense'] ?? 0.0,
+                            );
+                          }).toList(),
                         ),
                       );
                     default:

@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class WeekColumn extends StatelessWidget {
-  const WeekColumn({super.key});
+  const WeekColumn({
+    super.key,
+    required this.weekNumber,
+    required this.dateRange,
+    required this.income,
+    required this.expense,
+  });
+
+  final int weekNumber;
+  final String dateRange;
+  final double income;
+  final double expense;
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +41,21 @@ class WeekColumn extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  "Minggu 1",
+                  "Minggu $weekNumber",
                   style: TypographyStyle.l3Bold,
                 ),
               ),
               SizedBox(
                 height: 4,
               ),
-              Row(
-                children: [
-                  Text("1.10", style: TypographyStyle.h5),
-                  Text("-", style: TypographyStyle.h5),
-                  Text("7.10", style: TypographyStyle.h5),
-                ],
-              )
+              Text(dateRange, style: TypographyStyle.h5),
             ],
           ),
-          Text("Rp50.000",
+          Text(CurrencyHelper.formatRupiah(income),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.incomeColor,
               )),
-          Text("Rp90.000",
+          Text(CurrencyHelper.formatRupiah(expense),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.expenditureColor,
               ))

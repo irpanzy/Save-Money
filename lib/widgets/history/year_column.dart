@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class YearColumn extends StatelessWidget {
-  const YearColumn({super.key});
+  final int year;
+  final double income;
+  final double expense;
+
+  const YearColumn({
+    super.key,
+    required this.year,
+    required this.income,
+    required this.expense,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +37,15 @@ class YearColumn extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              "2022",
+              year.toString(),
               style: TypographyStyle.l2Bold,
             ),
           ),
-          Text("Rp50.000",
+          Text(CurrencyHelper.formatRupiah(income),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.incomeColor,
               )),
-          Text("Rp90.000",
+          Text(CurrencyHelper.formatRupiah(expense),
               style: TypographyStyle.l1Bold.copyWith(
                 color: ColorStyle.expenditureColor,
               ))

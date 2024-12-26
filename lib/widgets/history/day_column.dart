@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
+import 'package:project_apk_catatan_keuangan/helpers/transaction_helper.dart';
+import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
 class DayColumn extends StatelessWidget {
-  const DayColumn({super.key});
+  const DayColumn({required this.date, required this.transactions, super.key});
+  final String date;
+  final List<TransactionModel> transactions;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +27,15 @@ class DayColumn extends StatelessWidget {
   }
 
   Widget columnHeader() {
+    final parsedDate = DateTime.parse(date);
+    final day = DateFormat('d').format(parsedDate);
+    final month = DateFormat('M').format(parsedDate);
+    final year = DateFormat('y').format(parsedDate);
+    final weekday = DateFormat('EEEE').format(parsedDate);
+    final totalIncome = TransactionHelper.calculateIncome(transactions);
+    final totalExpense = TransactionHelper.calculateExpense(transactions);
+
+
     return Container(
       padding: const EdgeInsets.only(bottom: 8),
       decoration: const BoxDecoration(
@@ -35,14 +50,14 @@ class DayColumn extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("30",
+                  Text(day,
                       style: TypographyStyle.h1.copyWith(
                         fontFamily: "Poppins_Extrabold",
                       )),
                   const SizedBox(width: 8),
                   Column(
                     children: [
-                      Text("09 2024", style: TypographyStyle.h5),
+                      Text("$month-$year", style: TypographyStyle.h5),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
@@ -51,7 +66,7 @@ class DayColumn extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          "Kamis",
+                          weekday,
                           style: TypographyStyle.l3Bold,
                         ),
                       )
@@ -67,7 +82,7 @@ class DayColumn extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Rp0",
+                    CurrencyHelper.formatRupiah(totalIncome),
                     style: TypographyStyle.l1Regular
                         .copyWith(color: ColorStyle.incomeColor),
                   ),
@@ -75,7 +90,7 @@ class DayColumn extends StatelessWidget {
                     width: 16,
                   ),
                   Text(
-                    "Rp110.000",
+                    CurrencyHelper.formatRupiah(totalExpense),
                     style: TypographyStyle.l1Regular
                         .copyWith(color: ColorStyle.expenditureColor),
                   )
@@ -89,83 +104,51 @@ class DayColumn extends StatelessWidget {
   }
 
   Widget columnBody() {
+    if (transactions.isEmpty) {
+      return Center(
+        child: Text(
+          "Tidak ada transaksi.",
+          style: TypographyStyle.p2Regular,
+        ),
+      );
+    }
+
     return Table(
       columnWidths: const {
         0: FlexColumnWidth(2),
         1: FlexColumnWidth(3),
         2: FlexColumnWidth(2),
       },
-      children: [
-        TableRow(
+      children: transactions.map((transaction) {
+        return TableRow(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text("Makanan", style: TypographyStyle.p2Regular),
+              child: Text("${transaction.categoryTitle}",
+                  style: TypographyStyle.p2Regular),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text("Membeli Rames", style: TypographyStyle.p2Regular),
+              child: Text(transaction.description,
+                  style: TypographyStyle.p2Regular),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Container(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "Rp100.000",
-                  style: TypographyStyle.p2Regular
-                      .copyWith(color: ColorStyle.expenditureColor),
+                  CurrencyHelper.formatRupiah(transaction.amount),
+                  style: TypographyStyle.p2Regular.copyWith(
+                    color: transaction.categoryType == 'Income'
+                        ? ColorStyle.incomeColor
+                        : ColorStyle.expenditureColor,
+                  ),
                 ),
               ),
             ),
           ],
-        ),
-        TableRow(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text("Parkir", style: TypographyStyle.p2Regular),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text("Parkir Alfamart", style: TypographyStyle.p2Regular),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Rp1.000",
-                  style: TypographyStyle.p2Regular
-                      .copyWith(color: ColorStyle.expenditureColor),
-                ),
-              ),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text("Belanja", style: TypographyStyle.p2Regular),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text("Beli sabun mandi", style: TypographyStyle.p2Regular),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Rp20.000",
-                  style: TypographyStyle.p2Regular
-                      .copyWith(color: ColorStyle.expenditureColor),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+        );
+      }).toList(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
@@ -12,12 +13,19 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  final DatabaseHelper dbHelper = DatabaseHelper();
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offNamed('/input_name');
+    Future.delayed(const Duration(seconds: 3), () async {
+      final isNameAvailable = await dbHelper.isNameAvailable();
+
+      if (isNameAvailable) {
+        Get.offNamed('/home');
+      } else {
+        Get.offNamed('/input_name');
+      }
     });
   }
 

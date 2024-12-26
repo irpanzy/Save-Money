@@ -49,7 +49,6 @@ class DatabaseHelper {
     ('Gaji', 'Income'),
     ('Investasi', 'Income')
   ''');
-    print("Default categories inserted!");
 
     await db.execute('''
       CREATE TABLE Transactions (
@@ -137,7 +136,7 @@ class DatabaseHelper {
     )
     AND strftime('%m', date) = ? AND strftime('%Y', date) = ?
   ''', [
-      month.toString().padLeft(2, '0'), 
+      month.toString().padLeft(2, '0'),
       year.toString(),
     ]);
 
@@ -154,7 +153,7 @@ class DatabaseHelper {
 
     try {
       final List<Map<String, dynamic>> result = await db.rawQuery('''
-       SELECT t.*, c.title as category_title
+       SELECT t.*, c.title as category_title, c.type as category_type
       FROM Transactions t
       JOIN Categories c ON t.categories_id = c.categories_id
       WHERE strftime('%m', t.date) = ?
@@ -180,10 +179,16 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<TransactionModel>> getTransactions() async {
+  Future<List<TransactionModel>> getAllTransactions() async {
     final db = await database;
-    final maps = await db.query('Transaction');
-    return maps.map((map) => TransactionModel.fromMap(map)).toList();
+
+    final result = await db.rawQuery('''
+    SELECT t.*, c.title as category_title, c.type as category_type
+    FROM Transactions t
+    JOIN Categories c ON t.categories_id = c.categories_id
+  ''');
+
+    return result.map((map) => TransactionModel.fromMap(map)).toList();
   }
 
   Future<int> updateTransaction(TransactionModel transaction) async {
@@ -271,13 +276,23 @@ class DatabaseHelper {
 
   Future<void> deleteAllTransactions() async {
     final db = await database;
-    await db
-        .delete('Transactions'); 
+    await db.delete('Transactions');
   }
 
   Future<void> deleteAllCategories() async {
     final db = await database;
-    await db.delete('Categories'); 
+    await db.delete('Categories');
   }
 
+  Future<bool> isNameAvailable() async {
+    final db = await database;
+
+    final result = await db.query(
+      'Settings',
+      where: 'nama IS NOT NULL',
+      limit: 1,
+    );
+
+    return result.isNotEmpty;
+  }
 }

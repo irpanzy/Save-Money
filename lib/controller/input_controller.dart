@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
@@ -108,6 +109,9 @@ class InputController extends GetxController {
       homeController.calculateIncomeMounth();
       homeController.calculateExpenseMount();
 
+      final HistoryController historyController = Get.find<HistoryController>();
+      await historyController.loadAllTransactions();
+
       Get.dialog(AlertDialog(
         title: const Text('Berhasil!',
             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -115,7 +119,6 @@ class InputController extends GetxController {
         actions: [
           TextButton(
             onPressed: () {
-              Get.back();
               Get.toNamed('/history');
               resetForm();
             },

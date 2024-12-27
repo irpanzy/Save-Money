@@ -12,7 +12,5 @@ class TransactionHelper {
         .where((transaction) => transaction.categoryType == 'Expense')
         .fold(0.0, (sum, transaction) => sum + transaction.amount.abs());
   }
-
- 
 }
 

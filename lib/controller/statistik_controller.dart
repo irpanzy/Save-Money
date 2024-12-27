@@ -50,7 +50,6 @@ class StatistikController extends GetxController {
     print("StatistikController: Selected month set to $month");
     selectedMonth.value = month;
 
-    // Pastikan HistoryController juga diperbarui
     final historyController = Get.find<HistoryController>();
     historyController.setSelectedMonth(month);
   }

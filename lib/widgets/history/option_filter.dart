@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown.dart';
 
 class OptionFilter extends StatelessWidget {
@@ -7,6 +9,8 @@ class OptionFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HistoryController>();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -24,14 +28,17 @@ class OptionFilter extends StatelessWidget {
                 tooltip: 'Filter'),
             SizedBox(width: 4),
             IconButton(
-                icon: const Icon(
-                  Symbols.swap_vert,
-                  color: Colors.black,
-                  size: 24,
-                  weight: 600,
-                ),
-                onPressed: () {},
-                tooltip: 'Filter'),
+              icon: Icon(
+                Symbols.swap_vert_rounded,
+                color: Colors.black,
+                size: 24,
+                weight: 600,
+              ),
+              onPressed: () {
+                controller.toggleSortOrder();
+              },
+              tooltip: 'Sort',
+            )
           ],
         )
       ],

@@ -29,19 +29,14 @@ class HistoryScreen extends StatelessWidget {
                 Obx(() {
                   switch (controller.selectedFilter.value) {
                     case "Hari":
-                      if (controller.transactions.isEmpty) {
-                        return const Center(
-                          child: Text("Tidak ada transaksi untuk bulan ini."),
-                        );
-                      }
-
                       final groupedTransactions =
-                          controller.groupTransactionsByDay();
+                          controller.groupTransactionsByDay(
+                        isAscending: controller.isAscending.value,
+                      );
 
                       if (groupedTransactions.isEmpty) {
                         return const Center(
-                          child: Text("Tidak ada transaksi."),
-                        );
+                            child: Text("Tidak ada transaksi."));
                       }
 
                       return Column(
@@ -54,7 +49,9 @@ class HistoryScreen extends StatelessWidget {
                       );
                     case "Minggu":
                       final weeklyTransactions =
-                          controller.groupTransactionsByWeek();
+                          controller.groupTransactionsByWeek(
+                        isAscending: controller.isAscending.value,
+                      );
 
                       if (weeklyTransactions.isEmpty) {
                         return const Center(
@@ -85,7 +82,9 @@ class HistoryScreen extends StatelessWidget {
                       }
 
                       final monthlyTransactions =
-                          controller.groupTransactionsByMonth();
+                          controller.groupTransactionsByMonth(
+                        isAscending: controller.isAscending.value,
+                      );
 
                       if (monthlyTransactions.isEmpty) {
                         return const Center(
@@ -114,7 +113,9 @@ class HistoryScreen extends StatelessWidget {
                       }
 
                       final yearlyTransactions =
-                          controller.groupTransactionsByYear();
+                          controller.groupTransactionsByYear(
+                        isAscending: controller.isAscending.value,
+                      );
 
                       if (yearlyTransactions.isEmpty) {
                         return const Center(

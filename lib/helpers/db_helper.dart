@@ -1,7 +1,6 @@
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/setting_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
-import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
@@ -15,14 +14,12 @@ class DatabaseHelper {
   static Database? _database;
   final String _dbName = 'SaveMoney.db';
 
-  // Get database instance
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB();
     return _database!;
   }
 
-  // Initialize database
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, _dbName);
@@ -33,7 +30,6 @@ class DatabaseHelper {
     );
   }
 
-  // Create tables
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE Categories (
@@ -222,11 +218,6 @@ class DatabaseHelper {
     FROM Transactions t
     JOIN Categories c ON t.categories_id = c.categories_id
   ''');
-
-    print("Data transaksi di database:");
-    for (var row in result) {
-      print(row);
-    }
 
     return result.map((map) => TransactionModel.fromMap(map)).toList();
   }

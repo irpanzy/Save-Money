@@ -8,6 +8,7 @@ class HistoryController extends GetxController {
   var searchQuery = "".obs;
   var transactions = <TransactionModel>[].obs;
   var selectedMonth = ''.obs;
+  var isAscending = false.obs;
 
   final dbHelper = DatabaseHelper();
 
@@ -25,8 +26,11 @@ class HistoryController extends GetxController {
     }, time: const Duration(milliseconds: 300));
   }
 
+  void toggleSortOrder() {
+    isAscending.value = !isAscending.value;
+  }
+
   void setSelectedMonth(String month) async {
-    print("HistoryController: Selected month set to $month");
     selectedMonth.value = month;
 
     if (transactions.isEmpty) {
@@ -69,7 +73,6 @@ class HistoryController extends GetxController {
       return transactionMonth == monthNumber && transactionYear == year;
     }).toList();
 
-    print("Filtered transactions: ${filtered.length}");
     transactions.assignAll(filtered);
   }
 
@@ -82,7 +85,6 @@ class HistoryController extends GetxController {
     try {
       final data = await dbHelper.getAllTransactions();
       transactions.assignAll(data);
-      print("Transaksi dimuat: ${transactions.length}");
     } catch (e) {
       print("Error saat memuat transaksi: $e");
     } finally {
@@ -95,7 +97,6 @@ class HistoryController extends GetxController {
     if (_cachedTransactions.isNotEmpty) {
       transactions.assignAll(_cachedTransactions);
     } else {
-      print("Cache kosong, memuat ulang transaksi...");
       loadAllTransactions();
     }
   }
@@ -104,17 +105,14 @@ class HistoryController extends GetxController {
     print("Filter diubah ke: $filter");
     selectedFilter.value = filter;
 
-    // Hanya fetch transaksi jika belum ada data
     if (transactions.isEmpty) {
-      print("Memuat transaksi...");
       await loadAllTransactions();
     }
 
-    // Terapkan logika filter
     if (filter == "Hari" || filter == "Minggu") {
-      filterTransactionsByMonth(); // Filter berdasarkan dropdown
+      filterTransactionsByMonth(); 
     } else {
-      showAllTransactions(); // Tampilkan semua transaksi untuk Bulan dan Tahun
+      showAllTransactions(); 
     }
   }
 
@@ -123,7 +121,8 @@ class HistoryController extends GetxController {
     filterTransactions();
   }
 
-  Map<String, List<TransactionModel>> groupTransactionsByDay() {
+  Map<String, List<TransactionModel>> groupTransactionsByDay(
+      {bool isAscending = false}) {
     final Map<String, List<TransactionModel>> groupedTransactions = {};
     for (var transaction in transactions) {
       if (transaction.date.isEmpty) {
@@ -144,12 +143,14 @@ class HistoryController extends GetxController {
     }
 
     groupedTransactions.forEach((key, value) {
-      value.sort(
-          (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)));
+      value.sort((a, b) => isAscending
+          ? DateTime.parse(a.date).compareTo(DateTime.parse(b.date))
+          : DateTime.parse(b.date).compareTo(DateTime.parse(a.date)));
     });
 
     final sortedEntries = groupedTransactions.entries.toList()
-      ..sort((a, b) => b.key.compareTo(a.key));
+      ..sort((a, b) =>
+          isAscending ? a.key.compareTo(b.key) : b.key.compareTo(a.key));
 
     return Map<String, List<TransactionModel>>.fromEntries(sortedEntries);
   }
@@ -172,7 +173,8 @@ class HistoryController extends GetxController {
     return {'start': startFormat, 'end': endFormat};
   }
 
-  Map<int, Map<String, dynamic>> groupTransactionsByWeek() {
+  Map<int, Map<String, dynamic>> groupTransactionsByWeek(
+      {bool isAscending = false}) {
     final Map<int, Map<String, dynamic>> weeklySummary = {};
 
     for (var transaction in transactions) {
@@ -197,10 +199,15 @@ class HistoryController extends GetxController {
       }
     }
 
-    return weeklySummary;
+    final sortedEntries = weeklySummary.entries.toList()
+      ..sort((a, b) =>
+          isAscending ? a.key.compareTo(b.key) : b.key.compareTo(a.key));
+
+    return Map<int, Map<String, dynamic>>.fromEntries(sortedEntries);
   }
 
-  Map<String, Map<String, double>> groupTransactionsByMonth() {
+  Map<String, Map<String, double>> groupTransactionsByMonth(
+      {bool isAscending = false}) {
     final Map<String, Map<String, double>> monthlySummary = {};
 
     for (var transaction in transactions) {
@@ -216,22 +223,29 @@ class HistoryController extends GetxController {
         };
       }
 
-      final currentIncome = monthlySummary[monthKey]!['income'] ?? 0.0;
-      final currentExpense = monthlySummary[monthKey]!['expense'] ?? 0.0;
-
       if (transaction.categoryType == 'Income') {
+        monthlySummary.putIfAbsent(
+            monthKey, () => {'income': 0.0, 'expense': 0.0});
         monthlySummary[monthKey]!['income'] =
-            currentIncome + transaction.amount;
+            (monthlySummary[monthKey]!['income'] ?? 0.0) + transaction.amount;
       } else if (transaction.categoryType == 'Expense') {
+        monthlySummary.putIfAbsent(
+            monthKey, () => {'income': 0.0, 'expense': 0.0});
         monthlySummary[monthKey]!['expense'] =
-            currentExpense + transaction.amount.abs();
+            (monthlySummary[monthKey]!['expense'] ?? 0.0) +
+                transaction.amount.abs();
       }
     }
 
-    return monthlySummary;
+    final sortedEntries = monthlySummary.entries.toList()
+      ..sort((a, b) =>
+          isAscending ? a.key.compareTo(b.key) : b.key.compareTo(a.key));
+
+    return Map<String, Map<String, double>>.fromEntries(sortedEntries);
   }
 
-  Map<int, Map<String, double>> groupTransactionsByYear() {
+  Map<int, Map<String, double>> groupTransactionsByYear(
+      {bool isAscending = false}) {
     final Map<int, Map<String, double>> yearlySummary = {};
 
     for (var transaction in transactions) {
@@ -247,18 +261,23 @@ class HistoryController extends GetxController {
         };
       }
 
-      final currentIncome = yearlySummary[year]!['income'] ?? 0.0;
-      final currentExpense = yearlySummary[year]!['expense'] ?? 0.0;
-
       if (transaction.categoryType == 'Income') {
-        yearlySummary[year]!['income'] = currentIncome + transaction.amount;
+        yearlySummary.putIfAbsent(year, () => {'income': 0.0, 'expense': 0.0});
+        yearlySummary[year]!['income'] =
+            (yearlySummary[year]!['income'] ?? 0.0) + transaction.amount;
       } else if (transaction.categoryType == 'Expense') {
+        yearlySummary.putIfAbsent(year, () => {'income': 0.0, 'expense': 0.0});
         yearlySummary[year]!['expense'] =
-            currentExpense + transaction.amount.abs();
+            (yearlySummary[year]!['expense'] ?? 0.0) + transaction.amount.abs();
       }
     }
 
-    return yearlySummary;
+    final sortedEntries = yearlySummary.entries.toList()
+      ..sort((a, b) => isAscending
+          ? a.key.compareTo(b.key) 
+          : b.key.compareTo(a.key)); 
+
+    return Map<int, Map<String, double>>.fromEntries(sortedEntries);
   }
 
   void filterTransactions() {

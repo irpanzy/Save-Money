@@ -7,22 +7,115 @@ class HistoryController extends GetxController {
   var selectedFilter = "Hari".obs;
   var searchQuery = "".obs;
   var transactions = <TransactionModel>[].obs;
+  var selectedMonth = ''.obs;
 
   final dbHelper = DatabaseHelper();
 
   @override
   void onInit() {
     super.onInit();
-    loadAllTransactions();
+    loadAllTransactions().then((_) {
+      if (selectedMonth.isNotEmpty) {
+        filterTransactionsByMonth();
+      }
+    });
+
+    debounce(selectedMonth, (_) {
+      filterTransactionsByMonth();
+    }, time: const Duration(milliseconds: 300));
   }
+
+  void setSelectedMonth(String month) async {
+    print("HistoryController: Selected month set to $month");
+    selectedMonth.value = month;
+
+    if (transactions.isEmpty) {
+      await loadAllTransactions();
+    }
+
+    filterTransactionsByMonth();
+  }
+
+  void filterTransactionsByMonth() {
+    if (selectedMonth.isEmpty) {
+      print("Filter gagal: selectedMonth kosong.");
+      return;
+    }
+
+    if (transactions.isEmpty) {
+      print("Filter gagal: transactions kosong.");
+      return;
+    }
+
+    final monthYear = selectedMonth.split(' ');
+    if (monthYear.length < 2) {
+      print("Filter gagal: Format bulan tidak valid.");
+      return;
+    }
+
+    final monthName = monthYear[0];
+    final year = monthYear[1];
+
+    final monthNumber =
+        DateFormat('MMMM').parse(monthName).month.toString().padLeft(2, '0');
+
+    final filtered = transactions.where((transaction) {
+      final transactionDate = DateTime.tryParse(transaction.date);
+      if (transactionDate == null) return false;
+
+      final transactionMonth = DateFormat('MM').format(transactionDate);
+      final transactionYear = DateFormat('yyyy').format(transactionDate);
+
+      return transactionMonth == monthNumber && transactionYear == year;
+    }).toList();
+
+    print("Filtered transactions: ${filtered.length}");
+    transactions.assignAll(filtered);
+  }
+
+  bool _isFetching = false;
 
   Future<void> loadAllTransactions() async {
-    final data = await dbHelper.getAllTransactions();
-    transactions.assignAll(data);
+    if (_isFetching) return;
+    _isFetching = true;
+
+    try {
+      final data = await dbHelper.getAllTransactions();
+      transactions.assignAll(data);
+      print("Transaksi dimuat: ${transactions.length}");
+    } catch (e) {
+      print("Error saat memuat transaksi: $e");
+    } finally {
+      _isFetching = false;
+    }
   }
 
-  void setFilter(String filter) {
+  List<TransactionModel> _cachedTransactions = [];
+  void showAllTransactions() {
+    if (_cachedTransactions.isNotEmpty) {
+      transactions.assignAll(_cachedTransactions);
+    } else {
+      print("Cache kosong, memuat ulang transaksi...");
+      loadAllTransactions();
+    }
+  }
+
+  void setFilter(String filter) async {
+    print("Filter diubah ke: $filter");
     selectedFilter.value = filter;
+
+    // Hanya fetch transaksi jika belum ada data
+    if (transactions.isEmpty) {
+      print("Memuat transaksi...");
+      await loadAllTransactions();
+    }
+
+    // Terapkan logika filter
+    if (filter == "Hari" || filter == "Minggu") {
+      filterTransactionsByMonth(); // Filter berdasarkan dropdown
+    } else {
+      showAllTransactions(); // Tampilkan semua transaksi untuk Bulan dan Tahun
+    }
   }
 
   void setSearchQuery(String query) {
@@ -114,8 +207,7 @@ class HistoryController extends GetxController {
       if (transaction.date.isEmpty) continue;
 
       final date = DateTime.parse(transaction.date);
-      final monthKey =
-          DateFormat('MMMM yyyy').format(date);
+      final monthKey = DateFormat('MMMM yyyy').format(date);
 
       if (!monthlySummary.containsKey(monthKey)) {
         monthlySummary[monthKey] = {
@@ -168,7 +260,6 @@ class HistoryController extends GetxController {
 
     return yearlySummary;
   }
-
 
   void filterTransactions() {
     if (searchQuery.value.isEmpty) return;

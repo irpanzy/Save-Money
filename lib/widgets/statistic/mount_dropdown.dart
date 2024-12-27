@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/controller/statistik_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
@@ -15,6 +16,23 @@ class MonthSelector extends StatefulWidget {
 class _MonthSelectorState extends State<MonthSelector> {
   final StatistikController controller = Get.put(StatistikController());
   String selectedMonth = "";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.availableMonths.isNotEmpty) {
+        final defaultMonth = controller.selectedMonth.value.isNotEmpty
+            ? controller.selectedMonth.value
+            : controller.availableMonths.first;
+
+        controller.setSelectedMonth(defaultMonth);
+
+        final historyController = Get.find<HistoryController>();
+        historyController.setSelectedMonth(defaultMonth);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +51,9 @@ class _MonthSelectorState extends State<MonthSelector> {
             onChanged: (String? newMonth) {
               if (newMonth != null) {
                 controller.setSelectedMonth(newMonth);
+                final HistoryController historyController =
+                    Get.find<HistoryController>();
+                historyController.setSelectedMonth(newMonth);
                 print('Selected Month Changed to: $newMonth');
               }
             },

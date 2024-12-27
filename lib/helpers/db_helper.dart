@@ -223,6 +223,11 @@ class DatabaseHelper {
     JOIN Categories c ON t.categories_id = c.categories_id
   ''');
 
+    print("Data transaksi di database:");
+    for (var row in result) {
+      print(row);
+    }
+
     return result.map((map) => TransactionModel.fromMap(map)).toList();
   }
 

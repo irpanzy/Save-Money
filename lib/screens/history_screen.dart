@@ -29,6 +29,12 @@ class HistoryScreen extends StatelessWidget {
                 Obx(() {
                   switch (controller.selectedFilter.value) {
                     case "Hari":
+                      if (controller.transactions.isEmpty) {
+                        return const Center(
+                          child: Text("Tidak ada transaksi untuk bulan ini."),
+                        );
+                      }
+
                       final groupedTransactions =
                           controller.groupTransactionsByDay();
 
@@ -74,6 +80,10 @@ class HistoryScreen extends StatelessWidget {
                       );
 
                     case "Bulan":
+                      if (controller.transactions.isEmpty) {
+                        controller.showAllTransactions();
+                      }
+
                       final monthlyTransactions =
                           controller.groupTransactionsByMonth();
 
@@ -99,6 +109,10 @@ class HistoryScreen extends StatelessWidget {
                         ),
                       );
                     case "Tahun":
+                      if (controller.transactions.isEmpty) {
+                        controller.showAllTransactions();
+                      }
+
                       final yearlyTransactions =
                           controller.groupTransactionsByYear();
 

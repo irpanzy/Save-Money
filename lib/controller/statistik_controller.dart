@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
@@ -21,7 +22,15 @@ class StatistikController extends GetxController {
     super.onInit();
     fetchCategories();
     fetchTransactions();
-    fetchAvailableMonths();
+
+    fetchAvailableMonths().then((_) {
+      if (availableMonths.isNotEmpty && selectedMonth.isEmpty) {
+        selectedMonth.value = availableMonths.first;
+        
+        final historyController = Get.find<HistoryController>();
+        historyController.setSelectedMonth(selectedMonth.value);
+      }
+    });
   }
 
   Future<void> fetchAvailableMonths() async {
@@ -38,8 +47,14 @@ class StatistikController extends GetxController {
   }
 
   void setSelectedMonth(String month) {
+    print("StatistikController: Selected month set to $month");
     selectedMonth.value = month;
+
+    // Pastikan HistoryController juga diperbarui
+    final historyController = Get.find<HistoryController>();
+    historyController.setSelectedMonth(month);
   }
+
 
   Future<void> fetchTransactions() async {
     try {

@@ -18,6 +18,7 @@ class HistoryAppBar extends StatelessWidget {
       decoration: BoxDecoration(color: ColorStyle.primaryColor50, boxShadow: [
         BoxShadow(
           offset: const Offset(0, 4),
+          // ignore: deprecated_member_use
           color: Colors.black.withOpacity(0.06),
           blurRadius: 8,
         ),
@@ -37,8 +38,8 @@ class HistoryAppBar extends StatelessWidget {
 
   Widget buildSearchBar(HistoryController controller) {
     return TextField(
-      onChanged:   (value) {
-        controller.setSearchQuery(value); // Update searchQuery di controller
+      onChanged: (value) {
+        controller.setSearchQuery(value);
       },
       decoration: InputDecoration(
         hintText: "Cari...",

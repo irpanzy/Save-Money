@@ -30,6 +30,32 @@ class HistoryController extends GetxController {
     isAscending.value = !isAscending.value;
   }
 
+  void setSearchQuery(String query) {
+    searchQuery.value = query;
+    filterTransactionsBySearchQuery();
+  }
+
+  void filterTransactionsBySearchQuery() {
+    print("Pencarian: ${searchQuery.value}");
+    if (searchQuery.value.isEmpty) {
+      loadAllTransactions();
+    } else {
+      final filteredTransactions = transactions.where((transaction) {
+        final description = transaction.description.toLowerCase();
+        final query = searchQuery.value.toLowerCase();
+        return description.contains(query);
+      }).toList();
+
+      print("Hasil filter: ${filteredTransactions.length} transaksi ditemukan");
+      transactions.assignAll(filteredTransactions);
+    }
+  }
+
+  void resetSearchQuery() {
+    searchQuery.value = "";
+    loadAllTransactions();
+  }
+
   void setSelectedMonth(String month) async {
     selectedMonth.value = month;
 
@@ -85,6 +111,7 @@ class HistoryController extends GetxController {
     try {
       final data = await dbHelper.getAllTransactions();
       transactions.assignAll(data);
+      print("Data transaksi: ${data.map((e) => e.description).toList()}");
     } catch (e) {
       print("Error saat memuat transaksi: $e");
     } finally {
@@ -110,16 +137,13 @@ class HistoryController extends GetxController {
     }
 
     if (filter == "Hari" || filter == "Minggu") {
-      filterTransactionsByMonth(); 
+      filterTransactionsByMonth();
     } else {
-      showAllTransactions(); 
+      showAllTransactions();
     }
   }
 
-  void setSearchQuery(String query) {
-    searchQuery.value = query;
-    filterTransactions();
-  }
+  
 
   Map<String, List<TransactionModel>> groupTransactionsByDay(
       {bool isAscending = false}) {
@@ -273,23 +297,10 @@ class HistoryController extends GetxController {
     }
 
     final sortedEntries = yearlySummary.entries.toList()
-      ..sort((a, b) => isAscending
-          ? a.key.compareTo(b.key) 
-          : b.key.compareTo(a.key)); 
+      ..sort((a, b) =>
+          isAscending ? a.key.compareTo(b.key) : b.key.compareTo(a.key));
 
     return Map<int, Map<String, double>>.fromEntries(sortedEntries);
   }
 
-  void filterTransactions() {
-    if (searchQuery.value.isEmpty) return;
-    transactions.assignAll(
-      transactions.where(
-        (transaction) =>
-            transaction.description
-                .toLowerCase()
-                .contains(searchQuery.value.toLowerCase()) ||
-            transaction.amount.toString().contains(searchQuery.value),
-      ),
-    );
-  }
 }

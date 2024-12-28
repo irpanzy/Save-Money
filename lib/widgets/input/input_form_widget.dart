@@ -9,7 +9,6 @@ import '../../style/color_style.dart';
 class InputFormWidget extends StatelessWidget {
   InputFormWidget({super.key});
   final InputController controller = Get.put(InputController());
-  final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +36,15 @@ class InputFormWidget extends StatelessWidget {
             ),
           ),
         ),
+        Obx(() => controller.dateError.value.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  controller.dateError.value,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
         const SizedBox(height: 24),
         Obx(() {
           final selectedValue = controller.filteredCategories.any((category) =>
@@ -89,6 +97,15 @@ class InputFormWidget extends StatelessWidget {
             ),
           );
         }),
+        Obx(() => controller.categoryError.value.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  controller.categoryError.value,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
         const SizedBox(height: 24),
         TextField(
           controller: controller.amountController,
@@ -112,6 +129,15 @@ class InputFormWidget extends StatelessWidget {
             ),
           ),
         ),
+        Obx(() => controller.dateError.value.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  controller.dateError.value,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
         const SizedBox(height: 24),
         TextField(
           controller: controller.deskripsiController,
@@ -132,6 +158,15 @@ class InputFormWidget extends StatelessWidget {
             ),
           ),
         ),
+        Obx(() => controller.descriptionError.value.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  controller.descriptionError.value,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
         const SizedBox(height: 24),
       ],
     );

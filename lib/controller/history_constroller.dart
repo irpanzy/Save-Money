@@ -1,20 +1,32 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
+import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
 
 class HistoryController extends GetxController {
+  // Observables
   var selectedFilter = "Hari".obs;
   var searchQuery = "".obs;
-  var transactions = <TransactionModel>[].obs;
   var selectedMonth = ''.obs;
   var isAscending = false.obs;
+  final RxList<CategoryModel> categories = <CategoryModel>[].obs;
+  var transactions = <TransactionModel>[].obs;
+  var allTransactions = <TransactionModel>[].obs;
+  var selectedCategory = Rxn<int>();
 
+  // Database Helper
   final dbHelper = DatabaseHelper();
 
+  // State Variables
+  bool _isFetching = false;
+  List<TransactionModel> _cachedTransactions = [];
+
+  // Initialization
   @override
   void onInit() {
     super.onInit();
+    loadCategories();
     loadAllTransactions().then((_) {
       if (selectedMonth.isNotEmpty) {
         filterTransactionsByMonth();
@@ -26,6 +38,7 @@ class HistoryController extends GetxController {
     }, time: const Duration(milliseconds: 300));
   }
 
+  // Filters
   void toggleSortOrder() {
     isAscending.value = !isAscending.value;
   }
@@ -33,27 +46,6 @@ class HistoryController extends GetxController {
   void setSearchQuery(String query) {
     searchQuery.value = query;
     filterTransactionsBySearchQuery();
-  }
-
-  void filterTransactionsBySearchQuery() {
-    print("Pencarian: ${searchQuery.value}");
-    if (searchQuery.value.isEmpty) {
-      loadAllTransactions();
-    } else {
-      final filteredTransactions = transactions.where((transaction) {
-        final description = transaction.description.toLowerCase();
-        final query = searchQuery.value.toLowerCase();
-        return description.contains(query);
-      }).toList();
-
-      print("Hasil filter: ${filteredTransactions.length} transaksi ditemukan");
-      transactions.assignAll(filteredTransactions);
-    }
-  }
-
-  void resetSearchQuery() {
-    searchQuery.value = "";
-    loadAllTransactions();
   }
 
   void setSelectedMonth(String month) async {
@@ -66,20 +58,96 @@ class HistoryController extends GetxController {
     filterTransactionsByMonth();
   }
 
+  void setFilter(String filter) async {
+    selectedFilter.value = filter;
+
+    if (transactions.isEmpty) {
+      await loadAllTransactions();
+    }
+
+    if (filter == "Hari" || filter == "Minggu") {
+      filterTransactionsByMonth();
+    } else {
+      showAllTransactions();
+    }
+  }
+
+  void resetSearchQuery() {
+    searchQuery.value = "";
+    loadAllTransactions();
+  }
+
+  void resetTransactions() {
+    transactions.assignAll(allTransactions);
+  }
+
+  // Loaders
+  Future<void> loadCategories() async {
+    try {
+      final fetchedCategories = await dbHelper.getCategories();
+      categories.assignAll(fetchedCategories);
+    } catch (e) {
+      print('Error loading categories: $e');
+    }
+  }
+
+  Future<void> loadAllTransactions() async {
+    if (_isFetching) return;
+    _isFetching = true;
+
+    try {
+      final data = await dbHelper.getAllTransactions();
+      allTransactions.assignAll(data);
+      transactions.assignAll(data);
+    } catch (e) {
+      print('Error fetching transactions: $e');
+    } finally {
+      _isFetching = false;
+    }
+  }
+
+  void showAllTransactions() {
+    if (_cachedTransactions.isNotEmpty) {
+      transactions.assignAll(_cachedTransactions);
+    } else {
+      loadAllTransactions();
+    }
+  }
+
+  // Filters and Grouping Functions
+  void filterTransactionsByCategory(int categoryId) {
+    final filteredTransactions = allTransactions.where((transaction) {
+      return transaction.categoryId == categoryId;
+    }).toList();
+
+    transactions.assignAll(filteredTransactions);
+  }
+
+  void filterTransactionsBySearchQuery() {
+    if (searchQuery.value.isEmpty) {
+      transactions.assignAll(allTransactions);
+    } else {
+      final filteredTransactions = allTransactions.where((transaction) {
+        final description = transaction.description.toLowerCase();
+        final query = searchQuery.value.toLowerCase();
+        return description.contains(query);
+      }).toList();
+
+      transactions.assignAll(filteredTransactions);
+    }
+  }
+
   void filterTransactionsByMonth() {
     if (selectedMonth.isEmpty) {
-      print("Filter gagal: selectedMonth kosong.");
       return;
     }
 
     if (transactions.isEmpty) {
-      print("Filter gagal: transactions kosong.");
       return;
     }
 
     final monthYear = selectedMonth.split(' ');
     if (monthYear.length < 2) {
-      print("Filter gagal: Format bulan tidak valid.");
       return;
     }
 
@@ -102,49 +170,7 @@ class HistoryController extends GetxController {
     transactions.assignAll(filtered);
   }
 
-  bool _isFetching = false;
-
-  Future<void> loadAllTransactions() async {
-    if (_isFetching) return;
-    _isFetching = true;
-
-    try {
-      final data = await dbHelper.getAllTransactions();
-      transactions.assignAll(data);
-      print("Data transaksi: ${data.map((e) => e.description).toList()}");
-    } catch (e) {
-      print("Error saat memuat transaksi: $e");
-    } finally {
-      _isFetching = false;
-    }
-  }
-
-  List<TransactionModel> _cachedTransactions = [];
-  void showAllTransactions() {
-    if (_cachedTransactions.isNotEmpty) {
-      transactions.assignAll(_cachedTransactions);
-    } else {
-      loadAllTransactions();
-    }
-  }
-
-  void setFilter(String filter) async {
-    print("Filter diubah ke: $filter");
-    selectedFilter.value = filter;
-
-    if (transactions.isEmpty) {
-      await loadAllTransactions();
-    }
-
-    if (filter == "Hari" || filter == "Minggu") {
-      filterTransactionsByMonth();
-    } else {
-      showAllTransactions();
-    }
-  }
-
-  
-
+  // Grouping Functions
   Map<String, List<TransactionModel>> groupTransactionsByDay(
       {bool isAscending = false}) {
     final Map<String, List<TransactionModel>> groupedTransactions = {};
@@ -182,7 +208,7 @@ class HistoryController extends GetxController {
   int getWeekOfYear(DateTime date) {
     final firstDayOfYear = DateTime(date.year, 1, 1);
     final daysSinceFirstDay = date.difference(firstDayOfYear).inDays;
-    return (daysSinceFirstDay / 7).ceil();
+    return (daysSinceFirstDay / 7).ceil() + 1;
   }
 
   Map<String, String> getDateRangeForWeek(int weekNumber, int year) {
@@ -201,7 +227,27 @@ class HistoryController extends GetxController {
       {bool isAscending = false}) {
     final Map<int, Map<String, dynamic>> weeklySummary = {};
 
-    for (var transaction in transactions) {
+    final filteredTransactions = transactions.where((transaction) {
+      if (selectedMonth.isEmpty) return true;
+
+      final monthYear = selectedMonth.split(' ');
+      if (monthYear.length != 2) return true;
+
+      final monthName = monthYear[0];
+      final year = monthYear[1];
+      final monthNumber =
+          DateFormat('MMMM').parse(monthName).month.toString().padLeft(2, '0');
+
+      final transactionDate = DateTime.tryParse(transaction.date);
+      if (transactionDate == null) return false;
+
+      final transactionMonth = DateFormat('MM').format(transactionDate);
+      final transactionYear = DateFormat('yyyy').format(transactionDate);
+
+      return transactionMonth == monthNumber && transactionYear == year;
+    }).toList();
+
+    for (var transaction in filteredTransactions) {
       if (transaction.date.isEmpty) continue;
 
       final date = DateTime.parse(transaction.date);
@@ -302,5 +348,4 @@ class HistoryController extends GetxController {
 
     return Map<int, Map<String, double>>.fromEntries(sortedEntries);
   }
-
 }

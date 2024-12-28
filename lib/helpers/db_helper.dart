@@ -206,7 +206,7 @@ class DatabaseHelper {
       final id = await db.insert('Transactions', transaction.toMap());
       return id;
     } catch (e) {
-      rethrow;
+      throw Exception('Database insert error');
     }
   }
 

@@ -14,14 +14,12 @@ class DatabaseHelper {
   static Database? _database;
   final String _dbName = 'SaveMoney.db';
 
-  // Get database instance
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB();
     return _database!;
   }
 
-  // Initialize database
   Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, _dbName);
@@ -32,7 +30,6 @@ class DatabaseHelper {
     );
   }
 
-  // Create tables
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE Categories (
@@ -49,7 +46,6 @@ class DatabaseHelper {
     ('Gaji', 'Income'),
     ('Investasi', 'Income')
   ''');
-    print("Default categories inserted!");
 
     await db.execute('''
       CREATE TABLE Transactions (
@@ -65,9 +61,43 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE Settings (
         nama TEXT PRIMARY KEY
-      
-)
+      )
     ''');
+  }
+
+  Future<List<String>> getAvailableMonths() async {
+    final db = await database;
+
+    final result = await db.rawQuery('''
+    SELECT DISTINCT strftime('%m', date) AS month, strftime('%Y', date) AS year
+    FROM Transactions
+    WHERE date IS NOT NULL
+    ORDER BY year DESC, month DESC
+  ''');
+
+    const List<String> months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    List<String> monthsWithYearList = result.map((row) {
+      final monthNumber = int.parse((row['month'] ?? '1').toString());
+      final year = row['year'] ?? '';
+      final monthName = months[monthNumber - 1];
+      return '$monthName $year';
+    }).toList();
+
+    return monthsWithYearList;
   }
 
   Future<double> getTotalIncome() async {
@@ -137,7 +167,7 @@ class DatabaseHelper {
     )
     AND strftime('%m', date) = ? AND strftime('%Y', date) = ?
   ''', [
-      month.toString().padLeft(2, '0'), 
+      month.toString().padLeft(2, '0'),
       year.toString(),
     ]);
 
@@ -154,7 +184,7 @@ class DatabaseHelper {
 
     try {
       final List<Map<String, dynamic>> result = await db.rawQuery('''
-       SELECT t.*, c.title as category_title
+       SELECT t.*, c.title as category_title, c.type as category_type
       FROM Transactions t
       JOIN Categories c ON t.categories_id = c.categories_id
       WHERE strftime('%m', t.date) = ?
@@ -176,20 +206,26 @@ class DatabaseHelper {
       final id = await db.insert('Transactions', transaction.toMap());
       return id;
     } catch (e) {
-      rethrow;
+      throw Exception('Database insert error');
     }
   }
 
-  Future<List<TransactionModel>> getTransactions() async {
+  Future<List<TransactionModel>> getAllTransactions() async {
     final db = await database;
-    final maps = await db.query('Transaction');
-    return maps.map((map) => TransactionModel.fromMap(map)).toList();
+
+    final result = await db.rawQuery('''
+    SELECT t.*, c.title as category_title, c.type as category_type
+    FROM Transactions t
+    JOIN Categories c ON t.categories_id = c.categories_id
+  ''');
+
+    return result.map((map) => TransactionModel.fromMap(map)).toList();
   }
 
   Future<int> updateTransaction(TransactionModel transaction) async {
     final db = await database;
     return await db.update(
-      'Transaction',
+      'Transactions',
       transaction.toMap(),
       where: 'transaction_id = ?',
       whereArgs: [transaction.id],
@@ -199,7 +235,7 @@ class DatabaseHelper {
   Future<int> deleteTransaction(int id) async {
     final db = await database;
     return await db.delete(
-      'Transaction',
+      'Transactions',
       where: 'transaction_id = ?',
       whereArgs: [id],
     );
@@ -271,13 +307,23 @@ class DatabaseHelper {
 
   Future<void> deleteAllTransactions() async {
     final db = await database;
-    await db
-        .delete('Transactions'); 
+    await db.delete('Transactions');
   }
 
   Future<void> deleteAllCategories() async {
     final db = await database;
-    await db.delete('Categories'); 
+    await db.delete('Categories');
   }
 
+  Future<bool> isNameAvailable() async {
+    final db = await database;
+
+    final result = await db.query(
+      'Settings',
+      where: 'nama IS NOT NULL',
+      limit: 1,
+    );
+
+    return result.isNotEmpty;
+  }
 }

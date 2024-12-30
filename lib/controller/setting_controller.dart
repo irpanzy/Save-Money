@@ -35,4 +35,6 @@ class SettingsController extends GetxController {
       Get.snackbar('Error', 'Gagal mengambil nama: $e');
     }
   }
+
+  
 }

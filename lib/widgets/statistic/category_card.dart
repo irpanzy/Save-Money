@@ -10,10 +10,7 @@ class CategoryCard extends StatefulWidget {
   final int percentage;
 
   const CategoryCard(
-      {super.key,
-      required this.title,
-      this.amount = "0",
-      this.percentage = 0});
+      {super.key, required this.title, this.amount = "0", this.percentage = 0});
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();
@@ -53,7 +50,8 @@ class _CategoryCardState extends State<CategoryCard> {
               widget.title,
               style: TypographyStyle.l2Regular,
             ),
-            trailing: Text(widget.amount, style: TypographyStyle.l2Regular),
+            trailing:
+                Text("${widget.amount} IDR", style: TypographyStyle.l2Regular),
           ),
         ));
   }

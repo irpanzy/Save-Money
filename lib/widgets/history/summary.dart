@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/widgets/history/summary_column.dart';
 
@@ -7,6 +10,7 @@ class SummaryCashflow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomescreenController controller = Get.put(HomescreenController());
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -22,17 +26,17 @@ class SummaryCashflow extends StatelessWidget {
         children: [
           SummaryColumn(
             label: "Pemasukan",
-            amount: "Rp450.000",
+            amount: CurrencyHelper.formatSaldoRupiah(controller.income.value),
             amountColor: ColorStyle.incomeColor,
           ),
           SummaryColumn(
             label: "Pengeluaran",
-            amount: "Rp550.000",
+            amount: CurrencyHelper.formatSaldoRupiah(controller.expense.value),
             amountColor: ColorStyle.expenditureColor,
           ),
-          const SummaryColumn(
+          SummaryColumn(
             label: "Saldo",
-            amount: "Rp150.000",
+            amount: CurrencyHelper.formatSaldoRupiah(controller.saldo.value),
             amountColor: ColorStyle.primaryTextBlack,
           ),
         ],

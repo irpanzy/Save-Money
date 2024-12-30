@@ -66,7 +66,7 @@ class SaldoWidget extends StatelessWidget {
                 children: [
                   Text('Saldo anda', style: TypographyStyle.l2Regular),
                   Obx(() => Text(
-                      "${CurrencySaldoHelper.formatRupiah(homescreenController.saldo.value)} IDR",
+                      "${CurrencyHelper.formatSaldoRupiah(homescreenController.saldo.value)} IDR",
                       style: TypographyStyle.h1
                           .copyWith(fontSize: 40, fontFamily: "Poppins_bold"))),
                 ],

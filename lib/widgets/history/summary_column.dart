@@ -23,7 +23,7 @@ class SummaryColumn extends StatelessWidget {
           style: TypographyStyle.l3Regular,
         ),
         const SizedBox(height: 4),
-        Text(amount,
+        Text("$amount",
             style: TypographyStyle.p1Bold.copyWith(color: amountColor)),
       ],
     );

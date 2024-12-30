@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/screens/update_transaksi_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/statistik_screen.dart';
 import 'screens/input_screen.dart';
@@ -20,7 +21,7 @@ class SaveMoneyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: BindingsBuilder(() {
-        Get.put(HomescreenController()); 
+        Get.put(HomescreenController());
       }),
       debugShowCheckedModeBanner: false,
       title: 'Save Money',
@@ -33,6 +34,10 @@ class SaveMoneyApp extends StatelessWidget {
         GetPage(name: '/input', page: () => const InputScreen()),
         GetPage(name: '/statistik', page: () => const StatistikScreen()),
         GetPage(name: '/settings', page: () => SettingsScreen()),
+        GetPage(
+          name: '/update',
+          page: () => UpdateTransactionScreen(),
+        ),
       ],
     );
   }

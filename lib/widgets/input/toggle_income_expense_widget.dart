@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import '../../controller/input_controller.dart';
 import '../../style/color_style.dart';
 
 class ToggleIncomeExpenseWidget extends StatelessWidget {
-  const ToggleIncomeExpenseWidget({super.key});
+  const ToggleIncomeExpenseWidget({super.key, required this.controller});
+  final dynamic controller;
 
   @override
   Widget build(BuildContext context) {
-    final InputController controller = Get.find<InputController>();
-
     return Obx(() => Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -4,7 +4,8 @@ class TransactionModel {
   final String description;
   final String date;
   final int categoryId;
-  final String? categoryTitle; 
+  final String? categoryTitle;
+  final String? categoryType; 
 
   TransactionModel({
     this.id,
@@ -13,6 +14,7 @@ class TransactionModel {
     required this.date,
     required this.categoryId,
     this.categoryTitle,
+    this.categoryType, 
   });
 
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
@@ -22,7 +24,8 @@ class TransactionModel {
       description: map['description'],
       date: map['date'],
       categoryId: map['categories_id'],
-      categoryTitle: map['category_title'], 
+      categoryTitle: map['category_title'],
+      categoryType: map['category_type'],
     );
   }
 
@@ -36,3 +39,5 @@ class TransactionModel {
     };
   }
 }
+
+

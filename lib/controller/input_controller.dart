@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/controller/statistik_controller.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
+import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 
 class InputController extends GetxController {
   @override
@@ -17,11 +21,22 @@ class InputController extends GetxController {
     });
 
     _setupAmountListener();
+    Get.lazyPut(() => StatistikController());
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    filterCategories();
   }
 
   final dbHelper = DatabaseHelper();
-
   var isIncome = true.obs;
+
+  var dateError = ''.obs;
+  var categoryError = ''.obs;
+  var amountError = ''.obs;
+  var descriptionError = ''.obs;
 
   final dateController = TextEditingController();
   final amountController = TextEditingController();
@@ -58,8 +73,13 @@ class InputController extends GetxController {
   }
 
   Future<void> loadCategories() async {
-    final fetchedCategories = await dbHelper.getCategories();
-    categories.assignAll(fetchedCategories);
+    try {
+      final fetchedCategories = await dbHelper.getCategories();
+      categories.assignAll(fetchedCategories);
+      filterCategories();
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal memuat kategori');
+    }
   }
 
   void filterCategories() {
@@ -83,10 +103,34 @@ class InputController extends GetxController {
   }
 
   Future<void> saveTransaction() async {
-    if (selectedCategoryId.value == null) {
-      Get.snackbar('Error', 'Pilih kategori terlebih dahulu');
-      return;
+    dateError.value = '';
+    categoryError.value = '';
+    amountError.value = '';
+    descriptionError.value = '';
+
+    bool isValid = true;
+
+    if (dateController.text.isEmpty) {
+      dateError.value = 'Tanggal harus diisi';
+      isValid = false;
     }
+
+    if (selectedCategoryId.value == null) {
+      categoryError.value = 'Kategori harus dipilih';
+      isValid = false;
+    }
+
+    if (amountController.text.isEmpty) {
+      amountError.value = 'Jumlah harus diisi';
+      isValid = false;
+    }
+
+    if (deskripsiController.text.isEmpty) {
+      descriptionError.value = 'Keterangan harus diisi';
+      isValid = false;
+    }
+
+    if (!isValid) return;
 
     final rawAmount =
         amountController.text.replaceAll('.', '').replaceAll(',', '');
@@ -100,29 +144,100 @@ class InputController extends GetxController {
 
     try {
       await dbHelper.insertTransaction(transaction);
+
       final HomescreenController homeController =
           Get.find<HomescreenController>();
+
+      final StatistikController statisticController =
+          Get.find<StatistikController>();
+
+      final historyController = Get.put(HistoryController());
 
       homeController.fetchLargestExpenses();
       homeController.calculateSaldo();
       homeController.calculateIncomeMounth();
       homeController.calculateExpenseMount();
+      await statisticController.fetchAvailableMonths();
 
-      Get.dialog(AlertDialog(
-        title: const Text('Berhasil!',
-            style: TextStyle(fontWeight: FontWeight.bold)),
-        content: const Text('Transaksi berhasil disimpan.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.back();
-              Get.toNamed('/history');
-              resetForm();
-            },
-            child: const Text('OK'),
+      await historyController.loadAllTransactions();
+
+      Get.dialog(
+        Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: ColorStyle.borderBlackLow,
+                width: 2,
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Symbols.check_circle,
+                      color: Colors.black87,
+                      size: 28,
+                      weight: 600,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Berhasil!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Transaksi berhasil disimpan.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Align(
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.toNamed('/history');
+                      resetForm();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black87,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ));
+        ),
+      );
     } catch (e) {
       Get.snackbar('Error', 'Gagal menyimpan transaksi');
     }

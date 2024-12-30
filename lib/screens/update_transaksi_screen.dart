@@ -31,7 +31,7 @@ class UpdateTransactionScreen extends StatelessWidget {
             child: IconButton(
               icon: Icon(Symbols.delete, color: ColorStyle.secondaryColor50),
               onPressed: () {
-                Get.toNamed('/history');
+                controller.deleteTransaction();
               },
             ),
           ),

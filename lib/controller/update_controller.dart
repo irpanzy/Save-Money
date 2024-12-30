@@ -106,7 +106,7 @@ class UpdateTransactionController extends GetxController {
     }
   }
 
-  // **Update Transaction**
+  // Update Transaction
   Future<void> updateTransaction() async {
     if (dateController.text.isEmpty) {
       dateError.value = "Tanggal tidak boleh kosong.";
@@ -143,7 +143,46 @@ class UpdateTransactionController extends GetxController {
     }
   }
 
-  // **Load Categories**
+  Future<void> deleteTransaction() async {
+    if (transactionId == null) {
+      Get.snackbar(
+        'Error',
+        'Tidak ada transaksi yang dipilih untuk dihapus.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    try {
+      await dbHelper.deleteTransaction(transactionId!);
+
+      final historyController = Get.find<HistoryController>();
+      historyController.loadAllTransactions();
+
+      Get.offNamed('/history');
+      Get.snackbar(
+        'Berhasil',
+        'Transaksi berhasil dihapus.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      print('Error deleting transaction: $e');
+      Get.snackbar(
+        'Error',
+        'Gagal menghapus transaksi.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+
+  // Load Categories
   Future<void> loadCategories() async {
     try {
       final categories = await dbHelper.getCategories();
@@ -154,7 +193,7 @@ class UpdateTransactionController extends GetxController {
     }
   }
 
-  // **Select Date**
+  // Select Date
   void selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

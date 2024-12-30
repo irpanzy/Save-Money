@@ -235,7 +235,7 @@ class DatabaseHelper {
   Future<int> deleteTransaction(int id) async {
     final db = await database;
     return await db.delete(
-      'Transaction',
+      'Transactions',
       where: 'transaction_id = ?',
       whereArgs: [id],
     );

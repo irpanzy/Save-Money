@@ -123,32 +123,58 @@ class DayColumn extends StatelessWidget {
       children: transactions.map((transaction) {
         return TableRow(
           children: [
-            GestureDetector(
-              onTap: () {
-                Get.delete<UpdateTransactionController>();
-                Get.toNamed('/update', arguments: transaction);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Text("${transaction.categoryTitle}",
-                    style: TypographyStyle.p2Regular),
+            TableCell(
+              child: GestureDetector(
+                onTap: () {
+                  Get.delete<UpdateTransactionController>();
+                  Get.toNamed('/update', arguments: transaction);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "${transaction.categoryTitle}",
+                        style: TypographyStyle.p2Regular,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(transaction.description,
-                  style: TypographyStyle.p2Regular),
+            TableCell(
+              child: GestureDetector(
+                onTap: () {
+                  Get.delete<UpdateTransactionController>();
+                  Get.toNamed('/update', arguments: transaction);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    transaction.description,
+                    style: TypographyStyle.p2Regular,
+                  ),
+                ),
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  CurrencyHelper.formatRupiah(transaction.amount),
-                  style: TypographyStyle.p2Regular.copyWith(
-                    color: transaction.categoryType == 'Income'
-                        ? ColorStyle.incomeColor
-                        : ColorStyle.expenditureColor,
+            TableCell(
+              child: GestureDetector(
+                onTap: () {
+                  Get.delete<UpdateTransactionController>();
+                  Get.toNamed('/update', arguments: transaction);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      CurrencyHelper.formatRupiah(transaction.amount),
+                      style: TypographyStyle.p2Regular.copyWith(
+                        color: transaction.categoryType == 'Income'
+                            ? ColorStyle.incomeColor
+                            : ColorStyle.expenditureColor,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -158,4 +184,5 @@ class DayColumn extends StatelessWidget {
       }).toList(),
     );
   }
+
 }

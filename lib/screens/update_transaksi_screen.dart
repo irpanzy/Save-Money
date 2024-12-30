@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:project_apk_catatan_keuangan/controller/update_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../widgets/input/input_form_widget.dart';
 import '../widgets/input/toggle_income_expense_widget.dart';
-import '../controller/input_controller.dart';
 
-class InputScreen extends StatelessWidget {
-  const InputScreen({super.key});
+class UpdateTransactionScreen extends StatelessWidget {
+  const UpdateTransactionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final InputController controller = Get.put(InputController());
+    final UpdateTransactionController controller =
+        Get.put(UpdateTransactionController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          title: Text('Buat Transaksi', style: TypographyStyle.h4),
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Symbols.arrow_back_rounded,
-                weight: 600, color: Colors.black),
-            onPressed: () => Get.toNamed('/home'),
-          )),
+        title: Text('Update Transaksi', style: TypographyStyle.h4),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Symbols.arrow_back_rounded,
+              weight: 600, color: Colors.black),
+          onPressed: () => Get.back(),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              icon: Icon(Symbols.delete, color: ColorStyle.secondaryColor50),
+              onPressed: () {
+                Get.toNamed('/history');
+              },
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Center(
@@ -31,18 +45,14 @@ class InputScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ToggleIncomeExpenseWidget(
-                  controller: controller,
-                ),
+                ToggleIncomeExpenseWidget(controller: controller),
                 const SizedBox(height: 32),
-                InputFormWidget(
-                  controller: controller,
-                ),
+                InputFormWidget(controller: controller),
                 const SizedBox(height: 24),
                 Obx(() => Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          controller.saveTransaction();
+                          controller.updateTransaction();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: controller.isIncome.value
@@ -55,7 +65,7 @@ class InputScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Simpan',
+                          'Update',
                           style:
                               TypographyStyle.h4.copyWith(color: Colors.white),
                         ),

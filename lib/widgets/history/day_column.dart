@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:project_apk_catatan_keuangan/controller/update_controller.dart';
 import 'package:project_apk_catatan_keuangan/helpers/currency_helper.dart';
 import 'package:project_apk_catatan_keuangan/helpers/transaction_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
@@ -34,7 +36,6 @@ class DayColumn extends StatelessWidget {
     final weekday = DateFormat('EEEE').format(parsedDate);
     final totalIncome = TransactionHelper.calculateIncome(transactions);
     final totalExpense = TransactionHelper.calculateExpense(transactions);
-
 
     return Container(
       padding: const EdgeInsets.only(bottom: 8),
@@ -122,10 +123,16 @@ class DayColumn extends StatelessWidget {
       children: transactions.map((transaction) {
         return TableRow(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text("${transaction.categoryTitle}",
-                  style: TypographyStyle.p2Regular),
+            GestureDetector(
+              onTap: () {
+                Get.delete<UpdateTransactionController>();
+                Get.toNamed('/update', arguments: transaction);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Text("${transaction.categoryTitle}",
+                    style: TypographyStyle.p2Regular),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),

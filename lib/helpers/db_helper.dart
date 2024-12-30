@@ -225,7 +225,7 @@ class DatabaseHelper {
   Future<int> updateTransaction(TransactionModel transaction) async {
     final db = await database;
     return await db.update(
-      'Transaction',
+      'Transactions',
       transaction.toMap(),
       where: 'transaction_id = ?',
       whereArgs: [transaction.id],

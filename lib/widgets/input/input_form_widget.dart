@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:project_apk_catatan_keuangan/controller/input_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../../style/color_style.dart';
 
 class InputFormWidget extends StatelessWidget {
-  InputFormWidget({super.key});
-  final InputController controller = Get.put(InputController());
+  const InputFormWidget({required this.controller, super.key});
+  final dynamic controller;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Input Tanggal
         TextField(
           controller: controller.dateController,
           readOnly: true,
@@ -46,21 +46,28 @@ class InputFormWidget extends StatelessWidget {
               )
             : const SizedBox.shrink()),
         const SizedBox(height: 24),
+
+        // Dropdown Kategori
         Obx(() {
-          final selectedValue = controller.filteredCategories.any((category) =>
-                  category.id == controller.selectedCategoryId.value)
-              ? controller.selectedCategoryId.value
-              : null;
+          final selectedValue = controller.selectedCategoryId.value;
+
+          if (selectedValue != null &&
+              !controller.filteredCategories
+                  .any((category) => category.id == selectedValue)) {
+            controller.selectedCategoryId.value = null;
+          }
+
+          final dropdownItems = controller.filteredCategories
+              .map<DropdownMenuItem<int>>((category) {
+            return DropdownMenuItem<int>(
+              value: category.id,
+              child: Text(category.title, style: TypographyStyle.l2Regular),
+            );
+          }).toList();
 
           return DropdownButtonFormField2<int>(
             value: selectedValue,
-            items: controller.filteredCategories
-                .map((category) => DropdownMenuItem<int>(
-                      value: category.id,
-                      child: Text(category.title,
-                          style: TypographyStyle.l2Regular),
-                    ))
-                .toList(),
+            items: dropdownItems,
             onChanged: (value) {
               controller.selectedCategoryId.value = value;
             },
@@ -107,6 +114,8 @@ class InputFormWidget extends StatelessWidget {
               )
             : const SizedBox.shrink()),
         const SizedBox(height: 24),
+
+        // Input Jumlah
         TextField(
           controller: controller.amountController,
           keyboardType: TextInputType.number,
@@ -129,16 +138,18 @@ class InputFormWidget extends StatelessWidget {
             ),
           ),
         ),
-        Obx(() => controller.dateError.value.isNotEmpty
+        Obx(() => controller.amountError.value.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  controller.dateError.value,
+                  controller.amountError.value,
                   style: TextStyle(color: Colors.red, fontSize: 12),
                 ),
               )
             : const SizedBox.shrink()),
         const SizedBox(height: 24),
+
+        // Input Keterangan
         TextField(
           controller: controller.deskripsiController,
           style: TypographyStyle.l2Regular,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/core.dart';
 
@@ -21,7 +22,7 @@ class HeaderRow extends StatelessWidget {
               Symbols.add_2_rounded,
               weight: 600,
             ),
-            onPressed: () {},
+            onPressed: () => Get.toNamed('/input_category'),
           ),
         ],
       ),

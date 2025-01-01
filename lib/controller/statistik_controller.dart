@@ -34,12 +34,11 @@ class StatistikController extends GetxController {
         if (selectedMonth.value.isEmpty) {
           selectedMonth.value = months.first;
         }
-      } 
+      }
     } catch (e) {
       print('Error fetching available months: $e');
     }
   }
-
 
   void setSelectedMonth(String month) {
     if (!availableMonths.contains(month)) {
@@ -110,12 +109,12 @@ class StatistikController extends GetxController {
     final Map<String, Map<String, dynamic>> categoryStats = {};
     final filteredTransactions = this.filteredTransactions;
 
-    if (filteredTransactions.isEmpty) {
-      return {};
-    }
+    // Ambil semua kategori berdasarkan jenis
+    final allCategories =
+        categoriesList.where((category) => category.type == categoryType);
 
+    // Hitung total transaksi
     double totalAmount = 0.0;
-
     for (var transaction in filteredTransactions) {
       if (transaction.categoryType != categoryType) continue;
 
@@ -132,6 +131,17 @@ class StatistikController extends GetxController {
       totalAmount += transaction.amount.abs();
     }
 
+    // Tambahkan kategori dengan totalAmount 0 jika belum ada transaksi
+    for (var category in allCategories) {
+      if (!categoryStats.containsKey(category.title)) {
+        categoryStats[category.title] = {
+          'totalAmount': 0.0,
+          'type': categoryType,
+        };
+      }
+    }
+
+    // Hitung persentase per kategori
     categoryStats.forEach((key, value) {
       value['percentage'] = totalAmount == 0
           ? 0

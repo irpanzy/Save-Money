@@ -9,67 +9,62 @@ class DoughnutChart extends StatelessWidget {
   const DoughnutChart({super.key, required this.isIncomeSelected});
   final bool isIncomeSelected;
 
-  Color getRandomColor() {
+  Color getRandomColor(Color baseColor) {
     final random = Random();
-    return Color.fromARGB(
-      255,
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-    );
+
+    int red = baseColor.red + random.nextInt(30) - 15; // Variasi ±15
+    int green = baseColor.green + random.nextInt(30) - 15;
+    int blue = baseColor.blue + random.nextInt(30) - 15;
+
+    red = red.clamp(0, 255);
+    green = green.clamp(0, 255);
+    blue = blue.clamp(0, 255);
+
+    return Color.fromARGB(255, red, green, blue);
   }
 
   @override
   Widget build(BuildContext context) {
     final StatistikController controller = Get.put(StatistikController());
 
-    final Map<String, Color> categoryColors = {};
+    return Obx(() {
+      final categoryType = isIncomeSelected ? "Income" : "Expense";
+      final categoryStats = controller.calculateCategoryStats(categoryType);
 
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          final categoryType = isIncomeSelected ? "Income" : "Expense";
+      if (categoryStats.isEmpty) {
+        return const Center(child: Text("Tidak ada data untuk chart."));
+      }
 
-          final categoryStats = controller.calculateCategoryStats(categoryType);
+      final baseColor = isIncomeSelected
+          ? const Color(0xFFCCFF00)
+          : const Color(0xFFE60000); 
 
-          final chartData = categoryStats.entries.map((entry) {
-            if (!categoryColors.containsKey(entry.key)) {
-              categoryColors[entry.key] = getRandomColor();
-            }
+      final chartData = categoryStats.entries.map((entry) {
+        return ChartDataHome(
+          entry.key,
+          entry.value['totalAmount'],
+          '${entry.key} (${entry.value['percentage']}%)',
+          getRandomColor(baseColor),
+        );
+      }).toList();
 
-            return ChartDataHome(
-              entry.key,
-              entry.value['totalAmount'],
-              '${entry.key} (${entry.value['percentage']}%)',
-              categoryColors[entry.key]!,
-            );
-          }).toList();
-
-          return SfCircularChart(
-            series: <CircularSeries>[
-              DoughnutSeries<ChartDataHome, String>(
-                dataSource: chartData,
-                xValueMapper: (ChartDataHome data, _) => data.category,
-                yValueMapper: (ChartDataHome data, _) => data.value,
-                dataLabelMapper: (ChartDataHome data, _) => data.percentage,
-                pointColorMapper: (ChartDataHome data, _) => data.color,
-                radius: '90%',
-                innerRadius: '70%',
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: true,
-                  labelPosition: ChartDataLabelPosition.inside,
-                  textStyle: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          );
-        }),
-      ),
-    );
+      return SfCircularChart(
+        series: <CircularSeries>[
+          DoughnutSeries<ChartDataHome, String>(
+            dataSource: chartData,
+            xValueMapper: (ChartDataHome data, _) => data.category,
+            yValueMapper: (ChartDataHome data, _) => data.value,
+            dataLabelMapper: (ChartDataHome data, _) => data.percentage,
+            pointColorMapper: (ChartDataHome data, _) => data.color,
+            radius: '90%',
+            innerRadius: '70%',
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.inside,
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

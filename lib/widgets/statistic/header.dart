@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown.dart';
+import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown_category.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -30,7 +30,7 @@ class Header extends StatelessWidget {
             style: TypographyStyle.h4,
           ),
           const Spacer(),
-          const MonthSelector(),
+          const MonthSelectorCategory(),
         ],
       ),
     );

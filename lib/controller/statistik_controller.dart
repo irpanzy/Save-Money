@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
+import 'package:intl/intl.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 import 'package:project_apk_catatan_keuangan/models/transaction_models.dart';
@@ -22,43 +22,57 @@ class StatistikController extends GetxController {
     super.onInit();
     fetchCategories();
     fetchTransactions();
-
-    fetchAvailableMonths().then((_) {
-      if (availableMonths.isNotEmpty && selectedMonth.isEmpty) {
-        selectedMonth.value = availableMonths.first;
-        
-        final historyController = Get.find<HistoryController>();
-        historyController.setSelectedMonth(selectedMonth.value);
-      }
-    });
+    fetchAvailableMonths();
   }
 
   Future<void> fetchAvailableMonths() async {
     try {
       final months = await dbHelper.getAvailableMonths();
-      availableMonths.assignAll(months);
+      if (months.isNotEmpty) {
+        availableMonths.assignAll(months);
 
-      if (selectedMonth.value.isEmpty && months.isNotEmpty) {
-        selectedMonth.value = months.first;
-      }
+        if (selectedMonth.value.isEmpty) {
+          selectedMonth.value = months.first;
+        }
+      } 
     } catch (e) {
       print('Error fetching available months: $e');
     }
   }
 
+
   void setSelectedMonth(String month) {
-    print("StatistikController: Selected month set to $month");
+    if (!availableMonths.contains(month)) {
+      return;
+    }
+
     selectedMonth.value = month;
 
-    final historyController = Get.find<HistoryController>();
-    historyController.setSelectedMonth(month);
+    fetchTransactions();
   }
-
 
   Future<void> fetchTransactions() async {
     try {
       final result = await _dbHelper.getAllTransactions();
       transactions.assignAll(result);
+
+      if (selectedMonth.isNotEmpty) {
+        final filtered = transactions.where((transaction) {
+          final date = transaction.date;
+
+          // ignore: unnecessary_null_comparison
+          if (date == null || date.isEmpty || date.length < 10) {
+            return false;
+          }
+
+          final transactionMonth =
+              DateFormat('MMMM yyyy').format(DateTime.parse(date));
+
+          return transactionMonth == selectedMonth.value;
+        }).toList();
+
+        transactions.assignAll(filtered);
+      }
     } catch (e) {
       print('Error fetching transactions: $e');
     }
@@ -73,16 +87,37 @@ class StatistikController extends GetxController {
     }
   }
 
+  List<TransactionModel> get filteredTransactions {
+    final filtered = transactions.where((transaction) {
+      final date = transaction.date;
+
+      // ignore: unnecessary_null_comparison
+      if (date == null || date.isEmpty || date.length < 10) {
+        return false;
+      }
+
+      final transactionMonth =
+          DateFormat('MMMM yyyy').format(DateTime.parse(date));
+
+      return transactionMonth == selectedMonth.value;
+    }).toList();
+
+    return filtered;
+  }
+
   Map<String, Map<String, dynamic>> calculateCategoryStats(
       String categoryType) {
     final Map<String, Map<String, dynamic>> categoryStats = {};
+    final filteredTransactions = this.filteredTransactions;
+
+    if (filteredTransactions.isEmpty) {
+      return {};
+    }
 
     double totalAmount = 0.0;
 
-    for (var transaction in transactions) {
-      if (transaction.categoryType != categoryType) {
-        continue;
-      }
+    for (var transaction in filteredTransactions) {
+      if (transaction.categoryType != categoryType) continue;
 
       final category = transaction.categoryTitle ?? "Unknown";
 

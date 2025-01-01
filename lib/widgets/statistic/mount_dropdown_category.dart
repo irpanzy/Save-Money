@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:project_apk_catatan_keuangan/controller/history_constroller.dart';
 import 'package:project_apk_catatan_keuangan/controller/statistik_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 
-class MonthSelector extends StatefulWidget {
-  const MonthSelector({super.key});
+class MonthSelectorCategory extends StatefulWidget {
+  const MonthSelectorCategory({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MonthSelectorState createState() => _MonthSelectorState();
+  _MonthSelectorCategoryState createState() => _MonthSelectorCategoryState();
 }
 
-class _MonthSelectorState extends State<MonthSelector> {
+class _MonthSelectorCategoryState extends State<MonthSelectorCategory> {
   final StatistikController controller = Get.put(StatistikController());
-  String selectedMonth = "";
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.availableMonths.isNotEmpty) {
-        final defaultMonth = controller.selectedMonth.value.isNotEmpty
-            ? controller.selectedMonth.value
-            : controller.availableMonths.first;
-
-        controller.setSelectedMonth(defaultMonth);
-
-        final historyController = Get.find<HistoryController>();
-        historyController.setSelectedMonth(defaultMonth);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await controller.fetchAvailableMonths();
+      if (controller.availableMonths.isNotEmpty &&
+          controller.selectedMonth.value.isEmpty) {
+        controller.setSelectedMonth(controller.availableMonths.first);
       }
     });
   }
@@ -37,10 +30,14 @@ class _MonthSelectorState extends State<MonthSelector> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (selectedMonth.isEmpty && controller.availableMonths.isNotEmpty) {
-        selectedMonth = controller.availableMonths.first;
+      if (controller.availableMonths.isEmpty) {
+        return Center(
+          child: Text(
+            "No months available",
+            style: TypographyStyle.l2Regular,
+          ),
+        );
       }
-
       return Row(
         children: [
           DropdownButton<String>(
@@ -51,10 +48,6 @@ class _MonthSelectorState extends State<MonthSelector> {
             onChanged: (String? newMonth) {
               if (newMonth != null) {
                 controller.setSelectedMonth(newMonth);
-                final HistoryController historyController =
-                    Get.find<HistoryController>();
-                historyController.setSelectedMonth(newMonth);
-                print('Selected Month Changed to: $newMonth');
               }
             },
             items: controller.availableMonths
@@ -78,7 +71,7 @@ class _MonthSelectorState extends State<MonthSelector> {
             alignment: Alignment.center,
             isDense: true,
           ),
-          SizedBox(
+          const SizedBox(
             width: 10.0,
           ),
         ],

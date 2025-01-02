@@ -109,11 +109,9 @@ class StatistikController extends GetxController {
     final Map<String, Map<String, dynamic>> categoryStats = {};
     final filteredTransactions = this.filteredTransactions;
 
-    // Ambil semua kategori berdasarkan jenis
     final allCategories =
         categoriesList.where((category) => category.type == categoryType);
 
-    // Hitung total transaksi
     double totalAmount = 0.0;
     for (var transaction in filteredTransactions) {
       if (transaction.categoryType != categoryType) continue;
@@ -131,7 +129,6 @@ class StatistikController extends GetxController {
       totalAmount += transaction.amount.abs();
     }
 
-    // Tambahkan kategori dengan totalAmount 0 jika belum ada transaksi
     for (var category in allCategories) {
       if (!categoryStats.containsKey(category.title)) {
         categoryStats[category.title] = {
@@ -141,7 +138,6 @@ class StatistikController extends GetxController {
       }
     }
 
-    // Hitung persentase per kategori
     categoryStats.forEach((key, value) {
       value['percentage'] = totalAmount == 0
           ? 0

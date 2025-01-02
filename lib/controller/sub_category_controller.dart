@@ -30,15 +30,12 @@ class SubCategoryController extends GetxController {
   }
 
   void prepareChartData(int categoryId) {
-    // Reset status filter
     isFilteredByMonth.value = selectedMonth.value != 'All Transactions';
 
-    // Filter transaksi berdasarkan kategori
     final filteredTransactions = allTransactions.where((transaction) {
       return transaction.categoryId == categoryId;
     }).toList();
 
-    // Jika filter bulan aktif, filter data berdasarkan bulan
     if (isFilteredByMonth.value) {
       final DateFormat format = DateFormat('MMMM yyyy');
       final DateTime selectedDate = format.parse(selectedMonth.value);
@@ -50,14 +47,11 @@ class SubCategoryController extends GetxController {
       });
     }
 
-    // Kelompokkan data berdasarkan mode tampilan
     final Map<String, double> groupedData = {};
-
     if (isFilteredByMonth.value) {
-      // Mode filter bulan: Kelompokkan berdasarkan tanggal
       for (var transaction in filteredTransactions) {
         final DateTime transactionDate = DateTime.parse(transaction.date);
-        final String day = transactionDate.day.toString(); // Gunakan tanggal
+        final String day = transactionDate.day.toString();
 
         if (groupedData.containsKey(day)) {
           groupedData[day] = groupedData[day]! + transaction.amount;
@@ -66,11 +60,9 @@ class SubCategoryController extends GetxController {
         }
       }
     } else {
-      // Mode default: Kelompokkan berdasarkan bulan
       for (var transaction in filteredTransactions) {
         final DateTime transactionDate = DateTime.parse(transaction.date);
-        final String month =
-            DateFormat('MMM').format(transactionDate); // Gunakan bulan
+        final String month = DateFormat('MMM').format(transactionDate);
 
         if (groupedData.containsKey(month)) {
           groupedData[month] = groupedData[month]! + transaction.amount;
@@ -80,7 +72,6 @@ class SubCategoryController extends GetxController {
       }
     }
 
-    // Konversi data menjadi format untuk chart
     filteredChartData.assignAll(
       groupedData.entries.map((entry) {
         return {'monthOrDay': entry.key, 'value': entry.value};
@@ -90,14 +81,12 @@ class SubCategoryController extends GetxController {
 
   void sortTransactions() {
     if (sortOption.value == 'Terbaru') {
-      // Sorting dari data terbaru ke terlama
       transactions.sort((a, b) {
         final dateA = DateTime.parse(a.date);
         final dateB = DateTime.parse(b.date);
         return dateB.compareTo(dateA);
       });
     } else if (sortOption.value == 'Terlama') {
-      // Sorting dari data terlama ke terbaru
       transactions.sort((a, b) {
         final dateA = DateTime.parse(a.date);
         final dateB = DateTime.parse(b.date);
@@ -124,23 +113,16 @@ class SubCategoryController extends GetxController {
   }
 
   void setSelectedMonth(String month) {
-    if (!availableMonths.contains(month)) {
-      return;
-    }
-
-    selectedMonth.value = month;
-
-    // Dapatkan categoryId dari argumen
-    final arguments = Get.arguments as Map<String, dynamic>;
-    final int categoryId = arguments['categoryId'];
-
     if (month == 'All Transactions') {
-      transactions.assignAll(allTransactions); // Tampilkan semua data
+      isFilteredByMonth.value = false;
+      prepareChartData(0);
     } else {
-      fetchTransactionsForSelectedMonth(categoryId); // Filter berdasarkan bulan
+      selectedMonth.value = month;
+      isFilteredByMonth.value = true;
+      final arguments = Get.arguments as Map<String, dynamic>;
+      final int categoryId = arguments['categoryId'];
+      fetchTransactionsForSelectedMonth(categoryId);
     }
-
-    prepareChartData(categoryId); // Perbarui data untuk chart
   }
 
   Future<void> fetchTransactionsForSelectedMonth(int categoryId) async {
@@ -159,11 +141,10 @@ class SubCategoryController extends GetxController {
 
         transactions.assignAll(filtered);
 
-        // Terapkan sorting
         sortTransactions();
-
         updateTransactionCount();
         groupTransactionsByDay();
+        prepareChartData(categoryId);
       }
     } catch (e) {
       print('Error fetching transactions for selected month: $e');
@@ -178,21 +159,31 @@ class SubCategoryController extends GetxController {
     try {
       final transactionsFromDb = await dbHelper.getAllTransactions();
 
-      // Simpan semua transaksi asli
       allTransactions.assignAll(transactionsFromDb);
 
-      // Filter transaksi berdasarkan kategori
       final filteredTransactions = transactionsFromDb.where((transaction) {
         return transaction.categoryId == categoryId;
       }).toList();
 
       transactions.assignAll(filteredTransactions);
 
+      if (filteredTransactions.isNotEmpty) {
+        final lastTransactionDate = filteredTransactions
+            .map((e) => DateTime.parse(e.date))
+            .reduce((a, b) => a.isAfter(b) ? a : b);
+
+        final String lastMonth =
+            DateFormat('MMMM yyyy').format(lastTransactionDate);
+
+        selectedMonth.value = lastMonth;
+        isFilteredByMonth.value = true;
+        fetchTransactionsForSelectedMonth(categoryId);
+      }
+
       totalTransactions.value = calculateTotalTransactions(categoryId);
       updateTransactionCount();
       groupTransactionsByDay();
 
-      // Persiapkan data untuk chart
       prepareChartData(categoryId);
     } catch (e) {
       print('Error fetching transactions: $e');

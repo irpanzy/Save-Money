@@ -67,7 +67,7 @@ class _StatistikScreenState extends State<StatistikScreen> {
                       onTap: () {
                         final category = controller.categoriesList
                             .firstWhere((cat) => cat.title == entry.key);
-                            
+
                         Get.toNamed(
                           '/sub_category',
                           arguments: {

@@ -10,8 +10,12 @@ class CategoryCard extends StatefulWidget {
   final int percentage;
   final Function()? onTap;
 
-  const CategoryCard(
-      {super.key, required this.title, this.amount = "0", this.percentage = 0, this.onTap,
+  const CategoryCard({
+    super.key,
+    required this.title,
+    this.amount = "0",
+    this.percentage = 0,
+    this.onTap,
   });
 
   @override
@@ -23,8 +27,8 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     final StatistikController controller = Get.put(StatistikController());
     return Obx(() => GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
+          onTap: widget.onTap,
+          child: Container(
             margin: const EdgeInsets.only(bottom: 16.0),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -54,10 +58,10 @@ class _CategoryCardState extends State<CategoryCard> {
                 widget.title,
                 style: TypographyStyle.l2Regular,
               ),
-              trailing:
-                  Text("${widget.amount} IDR", style: TypographyStyle.l2Regular),
+              trailing: Text("${widget.amount} IDR",
+                  style: TypographyStyle.l2Regular),
             ),
           ),
-    ));
+        ));
   }
 }

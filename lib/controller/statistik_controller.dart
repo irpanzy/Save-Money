@@ -72,6 +72,8 @@ class StatistikController extends GetxController {
 
         transactions.assignAll(filtered);
       }
+      
+      update();
     } catch (e) {
       print('Error fetching transactions: $e');
     }

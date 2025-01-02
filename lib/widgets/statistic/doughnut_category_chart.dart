@@ -9,9 +9,9 @@ class DoughnutChart extends StatelessWidget {
   final bool isIncomeSelected;
 
   Color generateDynamicColor(int index, bool isIncome) {
-    final baseHue = isIncome ? 120 : 0;
+    final baseHue = isIncome ? 120 : 0; 
     final hueShift =
-        (baseHue + (index * 30)) % 360; 
+        (baseHue + (index * 30)) % 360;
     return HSVColor.fromAHSV(1.0, hueShift.toDouble(), 0.8, 0.9).toColor();
   }
 
@@ -23,8 +23,11 @@ class DoughnutChart extends StatelessWidget {
       final categoryType = isIncomeSelected ? "Income" : "Expense";
       final categoryStats = controller.calculateCategoryStats(categoryType);
 
-      if (categoryStats.isEmpty) {
-        return const Center(child: Text("Tidak ada data untuk chart."));
+      final allZero =
+          categoryStats.values.every((entry) => entry['percentage'] == 0);
+
+      if (categoryStats.isEmpty || allZero) {
+        return const Center(child: Text("Tidak ada data transaksi."));
       }
 
       int index = 0;
@@ -52,6 +55,10 @@ class DoughnutChart extends StatelessWidget {
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
               labelPosition: ChartDataLabelPosition.inside,
+              textStyle: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

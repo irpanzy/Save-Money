@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_apk_catatan_keuangan/controller/input_controller.dart';
-import 'package:project_apk_catatan_keuangan/controller/statistik_controller.dart';
-import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
+import 'package:project_apk_catatan_keuangan/core.dart';
 import 'package:project_apk_catatan_keuangan/models/category_model.dart';
 
 class InputCategoryController extends GetxController {
@@ -21,68 +19,54 @@ class InputCategoryController extends GetxController {
   Future<void> saveCategory() async {
     titleError.value = '';
 
-    if (titleController.text.isEmpty) {
+    if (titleController.text.trim().isEmpty) {
       titleError.value = 'Nama kategori harus diisi';
       return;
     }
 
     final newCategory = CategoryModel(
-      title: titleController.text,
+      title: titleController.text.trim(),
       type: isIncome.value ? 'Income' : 'Expense',
     );
 
     try {
       await dbHelper.insertCategory(newCategory);
 
-      // Update daftar kategori di InputController
-      final InputController inputController = Get.find<InputController>();
-      inputController
-          .loadCategories(); // Memuat ulang kategori di input transaksi
+      titleController.clear();
+      isIncome.value = true;
 
-      // Update daftar kategori di StatistikController
-      final StatistikController statistikController =
-          Get.find<StatistikController>();
-      statistikController
-          .fetchCategories(); // Memuat ulang kategori di statistik
+      if (Get.isRegistered<InputController>()) {
+        await Get.find<InputController>().loadCategories();
+      } else {
+        Get.put(InputController()).loadCategories();
+      }
 
-      Get.dialog(
-        Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: const Color(0xFFCCCCCC),
-                width: 2,
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.check_circle, size: 50, color: Colors.green),
-                const SizedBox(height: 16),
-                const Text(
-                  'Kategori berhasil disimpan.',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    Get.toNamed('/statistik');
-                    resetForm();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          ),
-        ),
+      if (Get.isRegistered<StatistikController>()) {
+        await Get.find<StatistikController>().fetchCategories();
+      } else {
+        Get.put(StatistikController()).fetchCategories();
+      }
+
+      if (Get.isRegistered<HistoryController>()) {
+        await Get.find<HistoryController>().loadCategories();
+      } else {
+        Get.put(HistoryController()).loadCategories();
+      }
+
+      Get.back();
+      Get.snackbar(
+        'Sukses',
+        'Kategori berhasil disimpan',
+        backgroundColor: ColorStyle.primaryColor60,
+        colorText: Colors.white,
       );
     } catch (e) {
-      Get.snackbar('Error', 'Gagal menyimpan kategori');
+      Get.snackbar(
+        'Error',
+        'Gagal menyimpan kategori',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 

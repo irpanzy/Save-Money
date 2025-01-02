@@ -28,8 +28,6 @@ class OptionFilter extends StatelessWidget {
                 onPressed: () {
                   Get.dialog(
                     Dialog(
-                    
-                      
                       child: CategoryFilterDialog(),
                     ),
                   );

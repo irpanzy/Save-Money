@@ -64,6 +64,19 @@ class _StatistikScreenState extends State<StatistikScreen> {
                       amount: CurrencyHelper.formatSaldoRupiah(
                           entry.value['totalAmount']),
                       percentage: entry.value['percentage'],
+                      onTap: () {
+                        final category = controller.categoriesList
+                            .firstWhere((cat) => cat.title == entry.key);
+
+                        Get.toNamed(
+                          '/sub_category',
+                          arguments: {
+                            'categoryId': category.id,
+                            'categoryTitle': category.title,
+                            'categoryType': category.type,
+                          },
+                        );
+                      },
                     );
                   },
                 );

@@ -9,6 +9,7 @@ class HistoryController extends GetxController {
   var selectedFilter = "Hari".obs;
   var searchQuery = "".obs;
   var selectedMonth = ''.obs;
+  var availableMonths = <String>[].obs;
   var isAscending = false.obs;
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
   var transactions = <TransactionModel>[].obs;
@@ -20,6 +21,7 @@ class HistoryController extends GetxController {
 
   // State Variables
   bool _isFetching = false;
+  // ignore: prefer_final_fields
   List<TransactionModel> _cachedTransactions = [];
 
   // Initialization
@@ -49,9 +51,14 @@ class HistoryController extends GetxController {
   }
 
   void setSelectedMonth(String month) async {
+    if (selectedMonth.value == month) {
+      filterTransactionsByMonth();
+      return;
+    }
+
     selectedMonth.value = month;
 
-    if (transactions.isEmpty) {
+    if (allTransactions.isEmpty) {
       await loadAllTransactions();
     }
 
@@ -82,6 +89,19 @@ class HistoryController extends GetxController {
   }
 
   // Loaders
+  Future<void> fetchAvailableMonths() async {
+    try {
+      final months = await dbHelper.getAvailableMonths();
+      availableMonths.assignAll(months);
+
+      if (selectedMonth.value.isEmpty && months.isNotEmpty) {
+        selectedMonth.value = months.first;
+      }
+    } catch (e) {
+      print('Error fetching available months: $e');
+    }
+  }
+
   Future<void> loadCategories() async {
     try {
       final fetchedCategories = await dbHelper.getCategories();
@@ -92,9 +112,14 @@ class HistoryController extends GetxController {
   }
 
   Future<void> loadAllTransactions() async {
-    if (_isFetching) return;
-    _isFetching = true;
+    if (_isFetching) {
+      while (_isFetching) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+      return;
+    }
 
+    _isFetching = true;
     try {
       final data = await dbHelper.getAllTransactions();
       allTransactions.assignAll(data);
@@ -142,32 +167,35 @@ class HistoryController extends GetxController {
       return;
     }
 
-    if (transactions.isEmpty) {
-      return;
-    }
-
     final monthYear = selectedMonth.split(' ');
-    if (monthYear.length < 2) {
+
+    if (monthYear.length != 2) {
       return;
     }
 
     final monthName = monthYear[0];
     final year = monthYear[1];
 
-    final monthNumber =
-        DateFormat('MMMM').parse(monthName).month.toString().padLeft(2, '0');
+    try {
+      final monthNumber =
+          DateFormat('MMMM').parse(monthName).month.toString().padLeft(2, '0');
 
-    final filtered = transactions.where((transaction) {
-      final transactionDate = DateTime.tryParse(transaction.date);
-      if (transactionDate == null) return false;
+      final filtered = allTransactions.where((transaction) {
+        final transactionDate = DateTime.tryParse(transaction.date);
+        if (transactionDate == null) {
+          return false;
+        }
 
-      final transactionMonth = DateFormat('MM').format(transactionDate);
-      final transactionYear = DateFormat('yyyy').format(transactionDate);
+        final transactionMonth = DateFormat('MM').format(transactionDate);
+        final transactionYear = DateFormat('yyyy').format(transactionDate);
 
-      return transactionMonth == monthNumber && transactionYear == year;
-    }).toList();
+        return transactionMonth == monthNumber && transactionYear == year;
+      }).toList();
 
-    transactions.assignAll(filtered);
+      transactions.assignAll(filtered);
+    } catch (e) {
+      print("Error filtering transactions: $e");
+    }
   }
 
   // Grouping Functions

@@ -158,7 +158,7 @@ class InputController extends GetxController {
       homeController.calculateIncomeMounth();
       homeController.calculateExpenseMount();
       await statisticController.fetchAvailableMonths();
-
+      await statisticController.fetchTransactions();
       await historyController.loadAllTransactions();
 
       Get.dialog(

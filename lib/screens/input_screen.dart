@@ -5,7 +5,7 @@ import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../widgets/input/input_form_widget.dart';
 import '../widgets/input/toggle_income_expense_widget.dart';
-import '../controller/input_controller.dart';
+import '../controller/input_transaction_controller.dart';
 
 class InputScreen extends StatelessWidget {
   const InputScreen({super.key});

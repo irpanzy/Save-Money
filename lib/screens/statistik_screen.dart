@@ -45,11 +45,11 @@ class _StatistikScreenState extends State<StatistikScreen> {
 
                 final categoryStats =
                     controller.calculateCategoryStats(categoryType);
-
                 final filteredCategories = categoryStats.entries.toList();
 
                 if (filteredCategories.isEmpty) {
-                  return Center(child: Text("Tidak ada data kategori."));
+                  return Center(
+                      child: Text("Tidak ada data kategori di bulan ini"));
                 }
 
                 return ListView.builder(
@@ -64,6 +64,19 @@ class _StatistikScreenState extends State<StatistikScreen> {
                       amount: CurrencyHelper.formatSaldoRupiah(
                           entry.value['totalAmount']),
                       percentage: entry.value['percentage'],
+                      onTap: () {
+                        final category = controller.categoriesList
+                            .firstWhere((cat) => cat.title == entry.key);
+
+                        Get.toNamed(
+                          '/sub_category',
+                          arguments: {
+                            'categoryId': category.id,
+                            'categoryTitle': category.title,
+                            'categoryType': category.type,
+                          },
+                        );
+                      },
                     );
                   },
                 );

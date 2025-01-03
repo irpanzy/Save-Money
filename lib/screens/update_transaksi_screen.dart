@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:project_apk_catatan_keuangan/controller/update_controller.dart';
+import 'package:project_apk_catatan_keuangan/controller/update_transaction_controller.dart';
 import 'package:project_apk_catatan_keuangan/style/color_style.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
 import '../widgets/input/input_form_widget.dart';

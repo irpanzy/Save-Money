@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_apk_catatan_keuangan/controller/homescreen_controller.dart';
+import 'package:project_apk_catatan_keuangan/screens/category_input_screen.dart';
+import 'package:project_apk_catatan_keuangan/screens/sub_category_screen.dart';
 import 'package:project_apk_catatan_keuangan/screens/update_transaksi_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/statistik_screen.dart';
@@ -37,6 +39,14 @@ class SaveMoneyApp extends StatelessWidget {
         GetPage(
           name: '/update',
           page: () => UpdateTransactionScreen(),
+        ),
+        GetPage(
+          name: '/input_category',
+          page: () => const InputCategoryModal(),
+        ),
+        GetPage(
+          name: '/sub_category',
+          page: () => SubCategoryScreen(),
         ),
       ],
     );

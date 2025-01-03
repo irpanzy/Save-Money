@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_apk_catatan_keuangan/helpers/db_helper.dart';
 import 'package:project_apk_catatan_keuangan/models/setting_model.dart';
@@ -5,6 +6,7 @@ import 'package:project_apk_catatan_keuangan/models/setting_model.dart';
 class SettingsController extends GetxController {
   final DatabaseHelper _dbHelper = DatabaseHelper();
   var userName = 'Loading...'.obs;
+  var isDarkMode = false.obs;
 
   Future<void> saveName(String name) async {
     if (name.trim().isEmpty) {
@@ -34,6 +36,11 @@ class SettingsController extends GetxController {
       userName.value = 'Error';
       Get.snackbar('Error', 'Gagal mengambil nama: $e');
     }
+  }
+
+  void toggleDarkMode() {
+    isDarkMode.value = !isDarkMode.value;
+    Get.changeTheme(isDarkMode.value ? ThemeData.dark() : ThemeData.light());
   }
 
   

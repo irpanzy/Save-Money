@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:project_apk_catatan_keuangan/style/text_style.dart';
-import 'package:project_apk_catatan_keuangan/widgets/statistic/mount_dropdown_category.dart';
+import 'package:project_apk_catatan_keuangan/widgets/sub_category/mount_dropdown_subcategory.dart';
 
-class Header extends StatelessWidget {
-  const Header({super.key});
+class HeaderSubCategory extends StatelessWidget {
+  const HeaderSubCategory({required this.title, super.key});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +22,16 @@ class Header extends StatelessWidget {
               weight: 600,
             ),
             onPressed: () {
-              Get.toNamed('/history');
+              Get.toNamed('/statistik');
             },
           ),
           const SizedBox(width: 8),
           Text(
-            'Statistik',
+            title,
             style: TypographyStyle.h4,
           ),
           const Spacer(),
-          const MonthSelectorCategory(),
+          const MonthSelectorSubCategory(),
         ],
       ),
     );

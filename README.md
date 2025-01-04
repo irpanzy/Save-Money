@@ -1,4 +1,4 @@
-# Project Aplikasi Catatan Keuangan
+# Save Money
 
 ## Anggota Kelompok
 - Ricky Revanando (2211104047)
@@ -8,7 +8,7 @@
 - Satria Ariq A. D. (221110433)
 
 ## Deskripsi Proyek
-Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat aktivitas keuangan harian mereka, baik pengeluaran maupun pemasukan. Aplikasi ini juga menyediakan laporan bulanan, mingguan, dan tahunan, sehingga pengguna dapat melacak dan mengelola keuangan mereka dengan lebih baik.
+Save Money adalah sebuah aplikasi catatan keuangan yang dibuat untuk membantu pengguna dalam mencatat aktivitas keuangan harian mereka, baik pengeluaran maupun pemasukan. Aplikasi ini juga menyediakan laporan bulanan, mingguan, dan tahunan, sehingga pengguna dapat melacak dan mengelola keuangan mereka dengan lebih baik.
 
 ## Fitur Aplikasi
 1. **Pencatatan Aktivitas Keuangan**: Catat pengeluaran dan pemasukan harian.
@@ -21,7 +21,8 @@ Aplikasi Catatan Keuangan ini dibuat untuk membantu pengguna dalam mencatat akti
 ## Teknologi yang Digunakan
 - **Flutter**: Framework utama untuk pengembangan aplikasi mobile.
 - **Dart**: Bahasa pemrograman yang digunakan bersama Flutter.
-- **Supabase**: Untuk autentikasi, penyimpanan data, atau analitik (jika diimplementasikan).
+- **GetX**: Untuk state management dan navigasi.
+- **Sqflite**: Untuk penyimpanan database lokal.
 
 ## Pembagian Tugas
 1. **Irfan Muria**
@@ -47,49 +48,37 @@ Proyek ini adalah titik awal untuk aplikasi Flutter.
 ### Langkah-langkah
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/irpanzy/Aplikasi-Catatan-Keuangan.git
+   git clone https://github.com/irpanzy/Save-Money.git
    ```
 2. **Masuk ke Direktori Proyek**:
    ```bash
-   cd Aplikasi-Catatan-Keuangan
+   cd Save-Money
    ```
-3. **Pindah ke Branch tugas**:
-   Setelah berada di dalam direktori proyek, jalankan perintah ini untuk beralih ke branch tugas masing-masing:
-   ```bash
-   git checkout feature/"tugas kalian"
-   ```
-4. **Sinkronisasi dengan Branch Development**:
-   Untuk memastikan branch tugas Anda memiliki pembaruan terbaru dari branch development, jalankan:
-   ```bash
-   git pull origin development
-   ```
-5. **Install Dependencies**:
-   Pastikan Anda sudah menginstall [Flutter](https://flutter.dev) terlebih dahulu. Setelah itu, jalankan:
+3. Instal dependensi yang diperlukan:
    ```bash
    flutter pub get
    ```
-6. **Jalankan Aplikasi**:
+4. Jalankan aplikasi di emulator atau perangkat fisik:
    ```bash
    flutter run
    ```
 
 ## Package yang Digunakan
-- `syncfusion_flutter_charts: ^27.1.58
-- `cupertino_icons: ^1.0.8
-- `intl: ^0.19.0
-- `material_symbols_icons: ^4.2800.2
-- `dropdown_button2: ^2.3.9
-- `get: ^4.6.6
+- syncfusion_flutter_charts: ^27.1.58
+- cupertino_icons: ^1.0.8
+- intl: ^0.19.0
+- material_symbols_icons: ^4.2800.2
+- dropdown_button2: ^2.3.9
+- get: ^4.6.6
 - sqflite: ^2.4.1
 - path_provider: ^2.1.5
 
 ## Sumber Daya Tambahan
 - [Flutter Documentation](https://flutter.dev/docs): Dokumentasi resmi Flutter.
 - [Cookbook: Useful Flutter Samples](https://flutter.dev/docs/cookbook): Contoh kode dan tutorial untuk Flutter.
-
-## Lisensi
-Proyek ini menggunakan lisensi MIT. Anda bebas menggunakan, memodifikasi, dan mendistribusikan proyek ini dengan menyertakan atribusi kepada pengembang asli.
+- [GetX Documentation](https://pub.dev/packages/get): Dokumentasi resmi GetX.
+- [Sqflite Documentation](https://pub.dev/packages/sqflite): Dokumentasi resmi Sqflite.
 
 ---
 
-Selamat menggunakan aplikasi Catatan Keuangan ini! Semoga membantu dalam pengelolaan keuangan Anda.
+Selamat menggunakan Aplikasi Save Money ini! Semoga membantu dalam pengelolaan keuangan Anda.
